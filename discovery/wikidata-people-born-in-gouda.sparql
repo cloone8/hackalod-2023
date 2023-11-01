@@ -1,0 +1,23 @@
+# To be run on: http://query.wikidata.org/sparql
+
+PREFIX schema: <http://schema.org/>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX rdf: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?human ?label ?birthdate ?deathdate ?description
+WHERE
+{
+    ?human wdt:P31 wd:Q5. # human is a human
+    ?human wdt:P19 wd:Q33439340. # human is born in Gouda
+    ?human schema:description ?description.
+    FILTER (LANG(?description) = "nl").
+    ?human rdf:label ?label.
+    FILTER (LANG(?label) = "nl").
+
+    ?human wdt:P569 ?birthdate
+    FILTER (YEAR(?birthdate) <= 1830 && YEAR(?birthdate) > 1730)
+
+    ?human wdt:P570 ?deathdate
+}
+LIMIT 100
