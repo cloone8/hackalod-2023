@@ -1,4 +1,3 @@
-import internal from 'stream';
 import client from './sparql/client'
 import readableToObjectList from './util/readableToObjectList';
 
