@@ -6,6 +6,7 @@ import config from './config';
 
 import 'express-async-errors';
 import findDoors from './doors';
+import { getArtworksByPainter } from './artworks';
 
 // **** Variables **** //
 
@@ -21,6 +22,16 @@ app.get('/doors', async (req: Request, res: Response) => {
   await findDoors("bla");
 
   return res.status(200).json({});
+})
+
+app.get('/artworks', async (req: Request, res: Response) => {
+  const { painterId } = req.query
+  if (!painterId || !(typeof painterId == 'string')) {
+    res.status(400).json({ error: { message: 'missing queryparam "painterId"'}})
+    return
+  }
+  const string = await getArtworksByPainter(painterId)
+  res.json(string)
 })
 
 // Nav to users pg by default
