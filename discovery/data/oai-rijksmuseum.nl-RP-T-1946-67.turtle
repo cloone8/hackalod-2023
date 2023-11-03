@@ -1,0 +1,121 @@
+@prefix abc: <http://www.ab-c.nl/> .
+@prefix abm: <http://purl.org/abm/sen> .
+@prefix aff: <http://schemas.delving.eu/aff/> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix custom: <http://www.delving.eu/namespaces/custom/> .
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix delving: <http://schemas.delving.eu/> .
+@prefix devmode: <http://localhost:8000/resource/> .
+@prefix drup: <http://www.itin.nl/drupal> .
+@prefix ebucore: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+@prefix edm: <http://www.europeana.eu/schemas/edm/> .
+@prefix europeana: <http://www.europeana.eu/schemas/ese/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix gn: <http://www.geonames.org/ontology#> .
+@prefix icn: <http://www.icn.nl/schemas/icn/> .
+@prefix itin: <http://www.itin.nl/namespace> .
+@prefix musip: <http://www.musip.nl/> .
+@prefix narthex: <http://schemas.delving.eu/narthex/terms/> .
+@prefix nave: <http://schemas.delving.eu/nave/terms/> .
+@prefix nk: <http://data.collectienederland.nl/ns/nk/> .
+@prefix ore: <http://www.openarchives.org/ore/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix raw: <http://delving.eu/namespaces/raw> .
+@prefix rce: <http://data.collectienederland.nl/resource/ns/rce/> .
+@prefix rda: <http://rdvocab.info/ElementsGr2/> .
+@prefix rdau: <http://www.rdaregistry.info/Elements/u/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix tib: <http://schemas.delving.eu/resource/ns/tib/> .
+@prefix wgs84_pos: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://data.collectienederland.nl/resource/aggregation/rijksmuseum/oai-rijksmuseum.nl-RP-T-1946-67> a ore:Aggregation ;
+    edm:aggregatedCHO <http://data.collectienederland.nl/resource/document/rijksmuseum/oai-rijksmuseum.nl-RP-T-1946-67> ;
+    edm:dataProvider "Rijksmuseum Amsterdam" ;
+    edm:hasView <https://lh4.ggpht.com/1bmxPpwCUb5vJrJ307nX0oRjKVMgY2vwW8lGmU30YpiC-DR-QLbsqjd507tAKOV8M3LEyVqYvauHFeWfmWagWAKeCXw=s0> ;
+    edm:isShownAt <http://hdl.handle.net/10934/RM0001.COLLECT.485774> ;
+    edm:isShownBy <https://lh4.ggpht.com/1bmxPpwCUb5vJrJ307nX0oRjKVMgY2vwW8lGmU30YpiC-DR-QLbsqjd507tAKOV8M3LEyVqYvauHFeWfmWagWAKeCXw=s0> ;
+    edm:object <https://lh4.ggpht.com/1bmxPpwCUb5vJrJ307nX0oRjKVMgY2vwW8lGmU30YpiC-DR-QLbsqjd507tAKOV8M3LEyVqYvauHFeWfmWagWAKeCXw=s0> ;
+    edm:provider "Rijksdienst voor het Cultureel Erfgoed" ;
+    edm:rights <http://creativecommons.org/publicdomain/mark/1.0/> ;
+    ore:aggregates [ a nave:DelvingResource ;
+            nave:allowDeepZoom "true" ;
+            nave:allowLinkedOpenData "true" ;
+            nave:allowSourceDownload "false" ;
+            nave:featured "false" ;
+            nave:public "true" ],
+        [ a nave:RijksCollection ;
+            nave:rijksCollection "true" ],
+        [ a nave:DcnResource ;
+            nave:collectionPart "collection: drawings"@en,
+                "collectie: tekeningen"@nl ;
+            nave:province "Noord-Holland" ;
+            nave:technique <urn:rijksmuseum:thesaurus:RM0001.THESAU.27459>,
+                "brush"@en,
+                "penseel"@nl ] .
+
+<http://vocab.getty.edu/aat/300014109> a skos:Concept .
+
+<http://vocab.getty.edu/aat/300015045> a skos:Concept .
+
+<http://vocab.getty.edu/aat/300033973> a skos:Concept .
+
+<urn:rijksmuseum:thesaurus:RM0001.THESAU.1041> a skos:Concept .
+
+<http://data.collectienederland.nl/resource/document/rijksmuseum/oai-rijksmuseum.nl-RP-T-1946-67> a edm:ProvidedCHO ;
+    dc:coverage "fourth quarter 18th century"@en,
+        "vierde kwart 18e eeuw"@nl ;
+    dc:description "Het korporaalschap van kapitein Frans Banning Cocq en luitenant Willem van Ruytenburch, bekend als de 'Nachtwacht'."@nl ;
+    dc:identifier "RP-T-1946-67",
+        "http://hdl.handle.net/10934/RM0001.COLLECT.485774" ;
+    dc:publisher "Rijksmuseum" ;
+    dc:rights "Public Domain"@en,
+        "Publiek Domein"@nl ;
+    dc:subject "1648-06-18 - 1648-06-18"@nl ;
+    dc:title "De Nachtwacht"@nl ;
+    dc:type "drawing"@en,
+        "aquarel"@nl,
+        "tekening"@nl ;
+    dcterms:created "1779" ;
+    dcterms:extent "height 333 mm"@en,
+        "width 425 mm"@en,
+        "breedte 425 mm"@nl,
+        "hoogte 333 mm"@nl ;
+    dcterms:isPartOf "collection: drawings"@en,
+        "collectie: tekeningen"@nl ;
+    dcterms:medium "paper"@en,
+        "watercolor (paint)"@en,
+        "papier"@nl,
+        "waterverf"@nl ;
+    edm:type "IMAGE" .
+
+<https://lh4.ggpht.com/1bmxPpwCUb5vJrJ307nX0oRjKVMgY2vwW8lGmU30YpiC-DR-QLbsqjd507tAKOV8M3LEyVqYvauHFeWfmWagWAKeCXw=s0> a edm:WebResource ;
+    nave:resourceSortOrder "1" .
+
+[] a skos:Concept ;
+    skos:prefLabel "watercolor (paint)"@en .
+
+[] a skos:Concept ;
+    skos:prefLabel "waterverf"@nl .
+
+[] a skos:Concept ;
+    skos:prefLabel "papier"@nl .
+
+[] a skos:Concept ;
+    skos:prefLabel "drawing"@en .
+
+[] a skos:Concept ;
+    skos:prefLabel "tekening"@nl .
+
+[] a skos:Concept ;
+    skos:prefLabel "paper"@en .
+
+[] a skos:Concept ;
+    skos:prefLabel "aquarel"@nl .
+
