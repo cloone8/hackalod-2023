@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Rendering.Universal;
 
 public class PaintingScript : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class PaintingScript : MonoBehaviour
     IEnumerator UpdateTexture() {
         // Load Image
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(ImageUrl);
+        Debug.Log("Fetching texture " + ImageUrl);
+
         yield return www.SendWebRequest();
 
         if (www.result != UnityWebRequest.Result.Success) {
@@ -24,8 +27,10 @@ public class PaintingScript : MonoBehaviour
         else {
             Texture2D image = ((DownloadHandlerTexture) www.downloadHandler).texture;
 
-            Renderer renderer = GetComponent<Renderer>();
-            // renderer.material.SetTexture();
+            Material decalMaterial = this.GetComponent<DecalProjector>().material;
+            decalMaterial.SetTexture("Base_Map", image);
+
+            Debug.Log("Set texture from " + ImageUrl);
         }
     }
 
