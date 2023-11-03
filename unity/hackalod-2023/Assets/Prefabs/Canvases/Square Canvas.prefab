@@ -438,6 +438,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5494314570904740137}
   - component: {fileID: 9069298000190475773}
+  - component: {fileID: 2190869975338178935}
   m_Layer: 0
   m_Name: Decal Projector
   m_TagString: Untagged
@@ -484,6 +485,19 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0, z: 0.5}
   m_Size: {x: 1, y: 1, z: 1}
   m_FadeFactor: 1
+--- !u!114 &2190869975338178935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4483066583714040285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcb5a3e73e1adc9b3a8d8d8f506054df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImageUrl: https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG
 --- !u!1 &6169027334986792740
 GameObject:
   m_ObjectHideFlags: 0
