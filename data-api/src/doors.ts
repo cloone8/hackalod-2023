@@ -13,15 +13,15 @@ export default async function findDoors(origin: string) {
     }
     ORDER BY ?name
     LIMIT 10
-`;
+  `
 
   const stream = await client.query.select(query);
 
   stream.on("data", (row) => {
     Object.entries(row).forEach(([key, value]: [string, any]) => {
-      console.log(`${key}: ${value.value} (${value.termType})`);
-    });
-  });
+      console.log(`${key}: ${value.value} (${value.termType})`)
+    })
+  })
 
   return Promise.resolve();
 }
