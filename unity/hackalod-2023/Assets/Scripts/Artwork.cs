@@ -1,3 +1,6 @@
+using System;
+
+[Serializable]
 public class Artwork
 {
     public string name;

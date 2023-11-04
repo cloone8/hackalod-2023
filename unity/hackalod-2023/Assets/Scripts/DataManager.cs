@@ -9,11 +9,11 @@ public class DataManager : MonoBehaviour
 {
     private static DataManager instance = null;
 
-    private HashSet<string> painterQueue;
-    private HashSet<string> imageQueue;
+    public HashSet<string> painterQueue;
+    public HashSet<string> imageQueue;
 
-    private Dictionary<string, List<Artwork>> painters;
-    private Dictionary<string, Texture2D> imageCache;
+    public Dictionary<string, List<Artwork>> painters;
+    public Dictionary<string, Texture2D> imageCache;
 
     private string currentPainter;
     private int currentArtworkIndex;
@@ -22,23 +22,29 @@ public class DataManager : MonoBehaviour
     {
         painters = new Dictionary<string, List<Artwork>>();
         imageCache = new Dictionary<string, Texture2D>();
+        painterQueue = new HashSet<string>();
+        imageQueue = new HashSet<string>();
         currentArtworkIndex = -1;
     }
 
     public static DataManager Instance()
     {
         if (instance == null)
-            instance = new DataManager();
+        {
+            GameObject gameObject = new GameObject("DataManager");
+            instance = gameObject.AddComponent<DataManager>();
+        }
+
         return instance;
     }
 
-    public Texture2D GetNextImage()
+    public string GetNextImageUrl()
     {
         currentArtworkIndex++;
 
         List<Artwork> artworks = painters[currentPainter];
 
-        return imageCache[artworks[currentArtworkIndex %  artworks.Count].contentUrl];
+        return artworks[currentArtworkIndex %  artworks.Count].contentUrl;
     }
 
     public IEnumerator FetchImage(string url)
@@ -91,7 +97,7 @@ public class DataManager : MonoBehaviour
 
         painterQueue.Add(painterId);
 
-        using UnityWebRequest webRequest = UnityWebRequest.Get("http://localhost:3000/artworks?painterId=" + painterId);
+        using UnityWebRequest webRequest = UnityWebRequest.Get("http://localhost:3000/artist/" + painterId);
 
         yield return webRequest.SendWebRequest();
 
@@ -101,11 +107,16 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            painters.Add(painterId, JsonUtility.FromJson<List<Artwork>>(webRequest.downloadHandler.text));
+            Debug.Log("Got response: " + webRequest.downloadHandler.text);
+            Debug.Log("parsed " + JsonUtility.FromJson<ArtistResponse>("{\"artworks\":" + webRequest.downloadHandler.text + "}"));
+            Debug.Log("parsed list " + JsonUtility.FromJson<ArtistResponse>("{\"artworks\":" + webRequest.downloadHandler.text + "}").artworks);
+            painters.Add(painterId, JsonUtility.FromJson<ArtistResponse>("{\"artworks\":"+webRequest.downloadHandler.text+"}").artworks);
 
             painterQueue.Remove(painterId);
 
-            Debug.Log("Fetched data for painter " + painterId);
+            Debug.Log("Painter size " + painters.Count);
+            Debug.Log("Painter " + painters.GetValueOrDefault(painterId));
+            Debug.Log("Fetched data for painter " + painterId + ", got " + painters[painterId].Count + " artworks");
 
             foreach(Artwork artwork in painters[painterId])
             {
