@@ -26,6 +26,7 @@ public class MetaData
     public string pod;
     public string dod;
     public string spouse;
+    public string movements;
 }
 
 [Serializable]

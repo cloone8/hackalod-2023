@@ -129,11 +129,9 @@ public class DataManager : MonoBehaviour
         Debug.Log("Setting current painter to: " + painterId);
 
         currentPainter = painterId;
-        currentArtworkIndex = -1;
 
-        if(currentPainter != null) {
-            StartCoroutine(FetchArtworks(painterId));
-        }
+        currentArtworkIndex = -1;
+        StartCoroutine(FetchArtworks(painterId));
     }
 
     void Start()
