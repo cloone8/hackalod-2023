@@ -16,6 +16,10 @@ export const parseDate = (date: string | undefined): string | undefined => {
   return new Date(date).toLocaleDateString("nl-NL");
 };
 
-export const getLastPathSegment = (url: string): string => {
+export const getLastPathSegment = (url: string | undefined): string | undefined => {
+  if (!url) {
+    return undefined;
+  }
+
   return url.substring(url.lastIndexOf("/") + 1);
 };
