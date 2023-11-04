@@ -1,56 +1,59 @@
+import { getLastPathSegment } from "../../util";
 import { wikidataUrl } from "../client";
 import mapImage from "../mapImage";
 import { paintingDataQuery } from "../query";
 
-export const buildSubquery = (cityId: string): string => `
-  ${paintingDataQuery}
+export const buildSubqueries = (cityId: string): string[] => [
+  `
+    SERVICE <${wikidataUrl}> {
+      SELECT ?name ?description WHERE {
+        BIND(wd:${cityId} as ?city) .
 
-  SERVICE <${wikidataUrl}> {
-    SELECT * WHERE {
-      BIND(wd:${cityId} as ?city) .
-
-      OPTIONAL {
         ?city rdfs:label ?name .
         FILTER(LANG(?name) = "nl")
-      }
-      OPTIONAL {
         ?city schema:description ?description .
         FILTER(LANG(?description) = "nl") .
       }
-
-      ?artistwk wdt:P19 ?city .
-      ?artistwk wdt:P650 ?id .
-      ?artistwk rdfs:label ?artistname
-      BIND(REPLACE(STR(?artistwk), "http://www.wikidata.org/entity/", "") as ?artistwkid)
     }
-  }
-`
+  `,
+  `
+    ${paintingDataQuery}
 
-export const mapMetaData = (data: any[]) => {
-  console.log(data)
-  const [first] = data
+    SERVICE <${wikidataUrl}> {
+      SELECT * WHERE {
+        BIND(wd:${cityId} as ?city) .
 
-  const links = data.reduce((total, cur) => {
-    const id = cur.artistwkid.value
-    if (!total.some((d: any) => d.id == id)) {
-      total.push({
-        label: cur.artistname.value,
-        type: 'artist',
-        id
-      })
+        ?artistwk wdt:P19 ?city .
+        ?artistwk wdt:P650 ?rkdid .
+      }
     }
-    return total
-  }, [] as any[])
+  `,
+  `
+    SERVICE <${wikidataUrl}> {
+      SELECT ?artistwk ?artistname WHERE {
+        BIND(wd:${cityId} as ?city) .
 
+        ?artistwk wdt:P19 ?city .
+        ?artistwk rdfs:label ?artistname .
+        FILTER(LANG(?artistname) = "nl") .
+      }
+    }
+  `
+]
+
+export const mapData = ([metadata, images, links]: any[][]) => {
+  console.log(links)
   return {
     metadata: {
-      name: first.name.value,
-      description: first.description.value
+      name: metadata[0].name.value,
+      description: metadata[0].description.value
     },
-    images: [
-      ...mapImage(data)
-    ],
-    links
+    images: mapImage(images),
+    links: links.map((l) => ({
+      label: l.artistname.value,
+      type: 'artist',
+      id: getLastPathSegment(l.artistwk.value)
+    }))
   }
 }
 
