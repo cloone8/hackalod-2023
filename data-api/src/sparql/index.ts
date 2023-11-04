@@ -3,11 +3,14 @@ import { artworksClient } from "./client";
 import { buildQuery } from "./query";
 
 export default async (entityType: string, entityId: string) => {
-  const { buildSubquery, mapMetaData } = require(`./queries/${entityType}`);
+  const { buildSubqueries, mapData } = require(`./queries/${entityType}`);
 
-  const q = buildQuery(buildSubquery(entityId));
+  const qs = buildSubqueries(entityId)
+    .map((q: any) => buildQuery(q));
 
-  return artworksClient.query.select(q)
-    .then(readableToObjectList)
-    .then(mapMetaData);
+  const responses = await Promise.all(
+    qs.map((q: string) => artworksClient.query.select(q).then(readableToObjectList))
+  );
+
+  return mapData(responses);
 }
