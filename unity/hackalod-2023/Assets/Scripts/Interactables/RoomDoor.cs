@@ -5,23 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class RoomDoor : Interactable
 {
-    private string destination = "Unknown";
-
-    private string scene = null;
+    private Room destination;
 
     void Start() {
-        if(scene == null) {
-            scene = RoomManager.Instance().GetRandomRoom();
+        if(destination.scene == null) {
+            destination.scene = RoomManager.Instance().GetRandomRoom();
         }
     }
 
-    public void SetDestination(string sceneName, string prompt) {
-        destination = prompt;
-        scene = sceneName;
+    public void SetDestination(Room room) {
+        destination = room;
     }
 
     public override void Interact() {
-        Debug.Log("Going to " + destination + "!");
-        RoomManager.Instance().EnterHallway(scene);
+        Debug.Log("Entering door to " + destination.scene + " with painter " + destination.painter);
+        RoomManager.Instance().EnterHallway(destination);
     }
 }

@@ -19,7 +19,7 @@ public class DataManager : MonoBehaviour
 
     private CanvasDecalScript[] canvases;
 
-    private string currentPainter;
+    private string currentPainter = null;
     private int currentArtworkIndex;
 
     public DataManager()
@@ -29,6 +29,11 @@ public class DataManager : MonoBehaviour
         painterQueue = new HashSet<string>();
         fetchImageQueue = new HashSet<string>();
         currentArtworkIndex = -1;
+    }
+
+    public string GetCurrentPainterId()
+    {
+        return currentPainter;
     }
 
     public string GetNextImageUrl()
@@ -121,18 +126,23 @@ public class DataManager : MonoBehaviour
     // Wouter you should call this method to start fetching stuff
     public void SetCurrentPainter(string painterId)
     {
+        Debug.Log("Setting current painter to: " + painterId);
+
         currentPainter = painterId;
         currentArtworkIndex = -1;
-        StartCoroutine(FetchArtworks(painterId));
+
+        if(currentPainter != null) {
+            StartCoroutine(FetchArtworks(painterId));
+        }
     }
 
     void Start()
     {
-        if (!String.IsNullOrWhiteSpace(debugPainterId))
+        if (currentPainter == null && !String.IsNullOrWhiteSpace(debugPainterId))
         {
             SetCurrentPainter(debugPainterId);
         }
-        
+
         canvases = FindObjectsByType<CanvasDecalScript>(FindObjectsSortMode.None);
     }
 
@@ -156,7 +166,6 @@ public class DataManager : MonoBehaviour
                 canvas.nextImageTime = DateTime.Now.AddSeconds(SecondsPerImage);
                 canvas.readyForNext = true;
             }
-            
         }
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Entrance
   - Exit
+  - Linked Data Manager
   layers:
   - Default
   - TransparentFX

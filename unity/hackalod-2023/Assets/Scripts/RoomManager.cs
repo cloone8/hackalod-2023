@@ -18,7 +18,10 @@ public class RoomManager : MonoBehaviour
 
     private AsyncOperation loadOp;
 
-    private string prevRoom = "Entrance";
+    private Room prevRoom = new("Entrance", null);
+
+    private string nextPainterId = null;
+
 
     public string GetRandomRoom() {
         return rooms.roomNames[Random.Range(0, rooms.roomNames.Count)];
@@ -38,19 +41,25 @@ public class RoomManager : MonoBehaviour
         loadOp.allowSceneActivation = false;
     }
 
-    public void EnterHallway(string destinationRoomName) {
-        Debug.Log("Entering hallway to " + destinationRoomName);
+    public void EnterHallway(Room destination) {
+        Debug.Log("Entering hallway to " + destination.scene + " with painter " + destination.painter);
 
         if(loadOp == null) {
             Debug.LogError("No load operation to activate");
             return;
         }
 
-        prevRoom = SceneManager.GetActiveScene().name;
+        string curScene = SceneManager.GetActiveScene().name;
+
+        DataManager LDM = FindCurrentDataManager();
+
+        prevRoom = LDM != null ? new Room(curScene, LDM.GetCurrentPainterId()) : new Room(curScene, null);
+
+        nextPainterId = destination.painter;
 
         loadOp.allowSceneActivation = true;
 
-        loadOp = SceneManager.LoadSceneAsync(destinationRoomName, LoadSceneMode.Single);
+        loadOp = SceneManager.LoadSceneAsync(destination.scene, LoadSceneMode.Single);
         loadOp.allowSceneActivation = false;
     }
 
@@ -77,6 +86,11 @@ public class RoomManager : MonoBehaviour
         StartCoroutine(AsyncHandler(loadOp, firstRoom));
     }
 
+    private DataManager FindCurrentDataManager() {
+        GameObject LDMObject = GameObject.FindGameObjectWithTag("Linked Data Manager");
+        return LDMObject != null ? LDMObject.GetComponent<DataManager>() : null;
+    }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         Debug.Log("Scene loaded callback: " + scene.name);
 
@@ -88,16 +102,25 @@ public class RoomManager : MonoBehaviour
         GameObject entranceObject = GameObject.FindGameObjectWithTag("Entrance");
         RoomDoor entrance = entranceObject != null ? entranceObject.GetComponent<RoomDoor>() : null;
 
-        if(prevRoom == rooms.entranceRoom) {
+        if(prevRoom.scene == rooms.entranceRoom) {
             Debug.Log("Previous door was the entrance, deleting door");
             Destroy(entrance.gameObject);
         } else {
             Debug.Log("Previous door was not the entrance, setting up door");
-            entrance.SetDestination(prevRoom, "Back");
+            entrance.SetDestination(prevRoom);
         }
 
         List<RoomDoor> exits = GameObject.FindGameObjectsWithTag("Exit").ToList().ConvertAll(door => door.GetComponent<RoomDoor>());
         // TODO: Get new edges and set up doors
+
+        DataManager LDM = FindCurrentDataManager();
+
+        if(LDM != null) {
+            Debug.Log("Setting up LDM");
+            LDM.SetCurrentPainter(nextPainterId);
+        } else {
+            Debug.Log("No LDM found");
+        }
     }
 
     void Awake()
