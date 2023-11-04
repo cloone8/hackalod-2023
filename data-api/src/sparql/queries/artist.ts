@@ -77,7 +77,7 @@ export const buildSubqueries = (artistId: string): { query: string; client: Spar
   ];
 };
 
-export const mapData = ([metadata, images, images2, movements]: any[][]) => {
+export const mapData = ([metadata, images, images2, movements, gildes]: any[][]) => {
   const [metafirst] = metadata;
 
   if (!metafirst) {
@@ -132,6 +132,13 @@ export const mapData = ([metadata, images, images2, movements]: any[][]) => {
           type: "movement",
           id: getLastPathSegment(m.movement.value),
         })),
+      ...gildes
+        .filter((g) => g.gildelabel?.value && g.gilde?.value)
+        .map((g) => ({
+          label: `Gilde: ${g.gildelabel?.value}`,
+          type: "gilde",
+          id: getLastPathSegment(g.gilde.value),
+        }))
     ],
   };
 };
