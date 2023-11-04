@@ -1,4 +1,4 @@
-import { parseDate } from "../../util";
+import { getLastPathSegment, parseDate } from "../../util";
 import { wikidataUrl } from "../client";
 import { paintingDataQuery } from "../query";
 
@@ -49,6 +49,18 @@ export const mapData = (data: any[]) => {
         desc: row.paintingdesc.value,
         url: row.paintingurl.value,
       }))
+    ],
+    links: [
+      {
+        label: `Geboortestad: ${first.poblabel.value}`,
+        type: "city",
+        id: getLastPathSegment(first.pob.value),
+      },
+      {
+        label: `Sterfplaats: ${first.podlabel.value}`,
+        type: "city",
+        id: getLastPathSegment(first.pod.value),
+      }
     ]
   }
 }
