@@ -1,0 +1,24 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rkda: <https://data.rkd.nl/artists/>
+PREFIX schema: <http://schema.org/>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
+SELECT *
+WHERE {
+  SERVICE <https://query.wikidata.org/sparql> {
+    SELECT * WHERE {
+      BIND(<http://www.wikidata.org/entity/Q5598> AS ?person) .
+      ?person wdt:P650 ?id .
+      ?person wdt:P800 ?work .
+      ?work wdt:P18 ?img .
+    }
+  }
+
+  SERVICE <https://api.data.netwerkdigitaalerfgoed.nl/datasets/heritageflix/artworks-v2/sparql> {
+    SELECT * WHERE {
+      rkda:66219 schema:identifier ?id .
+    }
+  }
+} LIMIT 100
