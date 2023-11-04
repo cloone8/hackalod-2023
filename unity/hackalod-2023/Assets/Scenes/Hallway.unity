@@ -133,6 +133,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall Marble (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 3671097697645914311, guid: 975f9fbc997514982b7ffb4405d40424,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 6583005477908138308, guid: 975f9fbc997514982b7ffb4405d40424,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -206,6 +211,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wall Marble (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671097697645914311, guid: 975f9fbc997514982b7ffb4405d40424,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6583005477908138308, guid: 975f9fbc997514982b7ffb4405d40424,
         type: 3}
@@ -376,10 +386,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 159151236}
     m_Modifications:
+    - target: {fileID: 1133367020605836628, guid: 7c4f67b2608cb4c449a96ddd40a8e261,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 6668965131498570038, guid: 7c4f67b2608cb4c449a96ddd40a8e261,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8249853099589090552, guid: 7c4f67b2608cb4c449a96ddd40a8e261,
         type: 3}
       propertyPath: m_Name
       value: Window Large
+      objectReference: {fileID: 0}
+    - target: {fileID: 8249853099589090552, guid: 7c4f67b2608cb4c449a96ddd40a8e261,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8734323574050514498, guid: 7c4f67b2608cb4c449a96ddd40a8e261,
         type: 3}
@@ -466,7 +491,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &298296691
 Transform:
@@ -505,6 +530,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tile Wood
+      objectReference: {fileID: 0}
+    - target: {fileID: 1574582530093985823, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8397880306083663210, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
         type: 3}
@@ -581,7 +611,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &863607010
 Transform:
@@ -619,6 +649,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tile Wood (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1574582530093985823, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8397880306083663210, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
         type: 3}
@@ -694,6 +729,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall Marble (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 3671097697645914311, guid: 975f9fbc997514982b7ffb4405d40424,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 6583005477908138308, guid: 975f9fbc997514982b7ffb4405d40424,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -767,6 +807,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wall Marble (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671097697645914311, guid: 975f9fbc997514982b7ffb4405d40424,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6583005477908138308, guid: 975f9fbc997514982b7ffb4405d40424,
         type: 3}
@@ -842,6 +887,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall Marble (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3671097697645914311, guid: 975f9fbc997514982b7ffb4405d40424,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 6583005477908138308, guid: 975f9fbc997514982b7ffb4405d40424,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -903,104 +953,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1047981642}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1110635208
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1196894031}
-    m_Modifications:
-    - target: {fileID: 79907195316642433, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 4.459
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5590726358163696026, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-        type: 3}
-      propertyPath: m_Name
-      value: Exit
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8423761849763716383, guid: 7d5fcd4b135b34e908f8e2e38f1836b5, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5590726358163696026, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1110635211}
-  m_SourcePrefab: {fileID: 100100000, guid: 7d5fcd4b135b34e908f8e2e38f1836b5, type: 3}
---- !u!4 &1110635209 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 79907195316642433, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-    type: 3}
-  m_PrefabInstance: {fileID: 1110635208}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1110635210 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5590726358163696026, guid: 7d5fcd4b135b34e908f8e2e38f1836b5,
-    type: 3}
-  m_PrefabInstance: {fileID: 1110635208}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1110635211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110635210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b55ff67ec930c42c28f5a7e640fd1fcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prompt: Narnia
 --- !u!1 &1196894030
 GameObject:
   m_ObjectHideFlags: 0
@@ -1033,8 +985,8 @@ Transform:
   - {fileID: 863607010}
   - {fileID: 159151236}
   - {fileID: 298296691}
-  - {fileID: 1455785221}
-  - {fileID: 1110635209}
+  - {fileID: 1958542540}
+  - {fileID: 1613568780}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1245481057
@@ -1049,6 +1001,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wall Marble (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671097697645914311, guid: 975f9fbc997514982b7ffb4405d40424,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6583005477908138308, guid: 975f9fbc997514982b7ffb4405d40424,
         type: 3}
@@ -1124,6 +1081,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile Wood (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 1574582530093985823, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8397880306083663210, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1198,6 +1160,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile Wood (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1574582530093985823, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8397880306083663210, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1259,104 +1226,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1375421512}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1455785220
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1196894031}
-    m_Modifications:
-    - target: {fileID: 79907195316642433, guid: 9837a0fd6d86dad4982a390c69856040,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 9837a0fd6d86dad4982a390c69856040,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 9837a0fd6d86dad4982a390c69856040,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.902
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 9837a0fd6d86dad4982a390c69856040,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 9837a0fd6d86dad4982a390c69856040,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 9837a0fd6d86dad4982a390c69856040,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 9837a0fd6d86dad4982a390c69856040,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 9837a0fd6d86dad4982a390c69856040,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 9837a0fd6d86dad4982a390c69856040,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 79907195316642433, guid: 9837a0fd6d86dad4982a390c69856040,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5590726358163696026, guid: 9837a0fd6d86dad4982a390c69856040,
-        type: 3}
-      propertyPath: m_Name
-      value: Entrance
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8423761849763716383, guid: 9837a0fd6d86dad4982a390c69856040, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5590726358163696026, guid: 9837a0fd6d86dad4982a390c69856040,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1455785223}
-  m_SourcePrefab: {fileID: 100100000, guid: 9837a0fd6d86dad4982a390c69856040, type: 3}
---- !u!4 &1455785221 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 79907195316642433, guid: 9837a0fd6d86dad4982a390c69856040,
-    type: 3}
-  m_PrefabInstance: {fileID: 1455785220}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1455785222 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5590726358163696026, guid: 9837a0fd6d86dad4982a390c69856040,
-    type: 3}
-  m_PrefabInstance: {fileID: 1455785220}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1455785223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1455785222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b55ff67ec930c42c28f5a7e640fd1fcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prompt: Narnia
 --- !u!1001 &1555629253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1369,6 +1238,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tile Wood (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1574582530093985823, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8397880306083663210, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
         type: 3}
@@ -1444,6 +1318,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile Wood (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1574582530093985823, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8397880306083663210, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1505,6 +1384,105 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1603980489}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1613568779
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1196894031}
+    m_Modifications:
+    - target: {fileID: 1327011490169083463, guid: 484d0768cb39044ca981282c6aaf4b21,
+        type: 3}
+      propertyPath: m_Name
+      value: Exit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 484d0768cb39044ca981282c6aaf4b21,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 484d0768cb39044ca981282c6aaf4b21,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 484d0768cb39044ca981282c6aaf4b21,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.494
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 484d0768cb39044ca981282c6aaf4b21,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 484d0768cb39044ca981282c6aaf4b21,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 484d0768cb39044ca981282c6aaf4b21,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 484d0768cb39044ca981282c6aaf4b21,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 484d0768cb39044ca981282c6aaf4b21,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 484d0768cb39044ca981282c6aaf4b21,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 484d0768cb39044ca981282c6aaf4b21,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1021895263532723775, guid: 484d0768cb39044ca981282c6aaf4b21, type: 3}
+    - {fileID: 8389464689536080966, guid: 484d0768cb39044ca981282c6aaf4b21, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2668164250488652140, guid: 484d0768cb39044ca981282c6aaf4b21,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1613568782}
+  m_SourcePrefab: {fileID: 100100000, guid: 484d0768cb39044ca981282c6aaf4b21, type: 3}
+--- !u!4 &1613568780 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8758026313939958112, guid: 484d0768cb39044ca981282c6aaf4b21,
+    type: 3}
+  m_PrefabInstance: {fileID: 1613568779}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1613568781 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2668164250488652140, guid: 484d0768cb39044ca981282c6aaf4b21,
+    type: 3}
+  m_PrefabInstance: {fileID: 1613568779}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1613568782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613568781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55ff67ec930c42c28f5a7e640fd1fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prompt: Narnia
 --- !u!1001 &1678192282
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1517,6 +1495,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wall Marble (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671097697645914311, guid: 975f9fbc997514982b7ffb4405d40424,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6583005477908138308, guid: 975f9fbc997514982b7ffb4405d40424,
         type: 3}
@@ -1591,6 +1574,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tile Wood (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1574582530093985823, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8397880306083663210, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
         type: 3}
@@ -1734,6 +1722,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile Wood (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 1574582530093985823, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8397880306083663210, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1808,6 +1801,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall Marble (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3671097697645914311, guid: 975f9fbc997514982b7ffb4405d40424,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 6583005477908138308, guid: 975f9fbc997514982b7ffb4405d40424,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1869,6 +1867,105 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1955550061}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1958542539
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1196894031}
+    m_Modifications:
+    - target: {fileID: 1327011490169083463, guid: 281d608dd84a940da850ba1edd2436a6,
+        type: 3}
+      propertyPath: m_Name
+      value: Entrance
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 281d608dd84a940da850ba1edd2436a6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 281d608dd84a940da850ba1edd2436a6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 281d608dd84a940da850ba1edd2436a6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.957
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 281d608dd84a940da850ba1edd2436a6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 281d608dd84a940da850ba1edd2436a6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 281d608dd84a940da850ba1edd2436a6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 281d608dd84a940da850ba1edd2436a6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 281d608dd84a940da850ba1edd2436a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 281d608dd84a940da850ba1edd2436a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758026313939958112, guid: 281d608dd84a940da850ba1edd2436a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1021895263532723775, guid: 281d608dd84a940da850ba1edd2436a6, type: 3}
+    - {fileID: 716182032363206083, guid: 281d608dd84a940da850ba1edd2436a6, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2668164250488652140, guid: 281d608dd84a940da850ba1edd2436a6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1958542542}
+  m_SourcePrefab: {fileID: 100100000, guid: 281d608dd84a940da850ba1edd2436a6, type: 3}
+--- !u!4 &1958542540 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8758026313939958112, guid: 281d608dd84a940da850ba1edd2436a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1958542539}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1958542541 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2668164250488652140, guid: 281d608dd84a940da850ba1edd2436a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1958542539}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1958542542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958542541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55ff67ec930c42c28f5a7e640fd1fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prompt: Narnia
 --- !u!1001 &2015821330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1881,6 +1978,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wall Marble (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671097697645914311, guid: 975f9fbc997514982b7ffb4405d40424,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6583005477908138308, guid: 975f9fbc997514982b7ffb4405d40424,
         type: 3}
@@ -1956,6 +2058,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile Wood (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1574582530093985823, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8397880306083663210, guid: 72a514fe9a0d5431cac8ce8a52a72bed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2029,6 +2136,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wall Marble
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671097697645914311, guid: 975f9fbc997514982b7ffb4405d40424,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6583005477908138308, guid: 975f9fbc997514982b7ffb4405d40424,
         type: 3}
