@@ -7,10 +7,12 @@ public class RoomDoor : Interactable
 {
     private string destination = "Unknown";
 
-    private string scene = "";
+    private string scene = null;
 
     void Start() {
-        scene = RoomManager.Instance().GetRandomRoom();
+        if(scene == null) {
+            scene = RoomManager.Instance().GetRandomRoom();
+        }
     }
 
     public void SetDestination(string sceneName, string prompt) {

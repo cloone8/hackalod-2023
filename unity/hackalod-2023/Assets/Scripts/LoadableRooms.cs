@@ -9,5 +9,7 @@ public class LoadableRooms : ScriptableObject
 {
     public string transitionRoom;
 
+    public string entranceRoom;
+
     public List<string> roomNames;
 }

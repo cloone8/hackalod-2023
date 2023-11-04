@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Loadable Rooms
   m_EditorClassIdentifier: 
   transitionRoom: Hallway
+  entranceRoom: Entrance
   roomNames:
   - Room2
   - Room3

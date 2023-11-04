@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Rendering.Universal;
@@ -16,6 +17,8 @@ public class RoomManager : MonoBehaviour
     public LoadableRooms rooms;
 
     private AsyncOperation loadOp;
+
+    private string prevRoom = "Entrance";
 
     public string GetRandomRoom() {
         return rooms.roomNames[Random.Range(0, rooms.roomNames.Count)];
@@ -42,6 +45,8 @@ public class RoomManager : MonoBehaviour
             Debug.LogError("No load operation to activate");
             return;
         }
+
+        prevRoom = SceneManager.GetActiveScene().name;
 
         loadOp.allowSceneActivation = true;
 
@@ -72,6 +77,29 @@ public class RoomManager : MonoBehaviour
         StartCoroutine(AsyncHandler(loadOp, firstRoom));
     }
 
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        Debug.Log("Scene loaded callback: " + scene.name);
+
+        if(scene.name == rooms.transitionRoom || scene.name == rooms.entranceRoom) {
+            Debug.Log("Transition or entrance room loaded, not doing anything");
+            return;
+        }
+
+        GameObject entranceObject = GameObject.FindGameObjectWithTag("Entrance");
+        RoomDoor entrance = entranceObject != null ? entranceObject.GetComponent<RoomDoor>() : null;
+
+        if(prevRoom == rooms.entranceRoom) {
+            Debug.Log("Previous door was the entrance, deleting door");
+            Destroy(entrance.gameObject);
+        } else {
+            Debug.Log("Previous door was not the entrance, setting up door");
+            entrance.SetDestination(prevRoom, "Back");
+        }
+
+        List<RoomDoor> exits = GameObject.FindGameObjectsWithTag("Exit").ToList().ConvertAll(door => door.GetComponent<RoomDoor>());
+        // TODO: Get new edges and set up doors
+    }
+
     void Awake()
     {
         if(instance != null) {
@@ -80,6 +108,7 @@ public class RoomManager : MonoBehaviour
         }
 
         instance = this;
+        SceneManager.sceneLoaded += OnSceneLoaded;
         DontDestroyOnLoad(gameObject);
     }
 }
