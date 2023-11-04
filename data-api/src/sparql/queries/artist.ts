@@ -1,5 +1,6 @@
 import { getLastPathSegment, parseDate } from "../../util";
 import { wikidataUrl } from "../client";
+import mapImage from "../mapImage";
 import { paintingDataQuery } from "../query";
 
 export const buildSubquery = (artistId: string): string => `
@@ -44,11 +45,7 @@ export const mapData = (data: any[]) => {
         label: first.name.value,
         url: first.image.value,
       },
-      ...data.map((row) => ({
-        label: row.paintingname.value,
-        desc: row.paintingdesc.value,
-        url: row.paintingurl.value,
-      }))
+      ...mapImage(data)
     ],
     links: [
       {

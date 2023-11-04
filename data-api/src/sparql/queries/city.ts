@@ -1,4 +1,5 @@
 import { wikidataUrl } from "../client";
+import mapImage from "../mapImage";
 import { paintingDataQuery } from "../query";
 
 export const buildSubquery = (cityId: string): string => `
@@ -35,10 +36,6 @@ export const buildSubquery = (cityId: string): string => `
 // `
 
 export const mapMetaData = (data: any[]) => {
-  return data.map((d) => ({
-    name: d.paintingname.value,
-    desc: d.paintingdesc.value,
-    url: d.paintingurl.value
-  }))
+  return mapImage(data)
 }
 
