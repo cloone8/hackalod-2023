@@ -11,3 +11,7 @@ export async function readableToObjectList(readable: Readable): Promise<object[]
 export const parseDate = (date: string): string => {
   return new Date(date).toLocaleDateString('nl-NL');
 }
+
+export const getLastPathSegment = (url: string): string => {
+  return url.substring(url.lastIndexOf('/') + 1);
+}

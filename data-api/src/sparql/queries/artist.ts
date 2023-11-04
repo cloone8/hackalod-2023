@@ -1,5 +1,6 @@
-import { parseDate } from "../../util";
+import { getLastPathSegment, parseDate } from "../../util";
 import { wikidataUrl } from "../client";
+import mapImage from "../mapImage";
 import { paintingDataQuery } from "../query";
 
 export const buildSubquery = (artistId: string): string => `
@@ -44,11 +45,19 @@ export const mapData = (data: any[]) => {
         label: first.name.value,
         url: first.image.value,
       },
-      ...data.map((row) => ({
-        label: row.paintingname.value,
-        desc: row.paintingdesc.value,
-        url: row.paintingurl.value,
-      }))
+      ...mapImage(data)
+    ],
+    links: [
+      {
+        label: `Geboortestad: ${first.poblabel.value}`,
+        type: "city",
+        id: getLastPathSegment(first.pob.value),
+      },
+      {
+        label: `Sterfplaats: ${first.podlabel.value}`,
+        type: "city",
+        id: getLastPathSegment(first.pod.value),
+      }
     ]
   }
 }
