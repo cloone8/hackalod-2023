@@ -69,6 +69,10 @@ export const buildSubqueries = (artistId: string): string[] => {
 export const mapData = ([metadata, images, images2, movements]: any[][]) => {
   const [metafirst] = metadata;
 
+  if (!metafirst) {
+    return {}
+  }
+
   return {
     metadata: {
       name: metafirst.name?.value,
