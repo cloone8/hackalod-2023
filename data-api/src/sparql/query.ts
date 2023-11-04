@@ -4,7 +4,7 @@ export const paintingDataQuery = `
   ?painting schemas:image [schemas:contentUrl ?paintingurl] .
   OPTIONAL { ?painting schemas:name ?paintingname . }
   OPTIONAL { ?painting schemas:description ?paintingdesc }
-`
+`;
 
 export const buildQuery = (query: string, limit = 100) => `
   PREFIX schema: <http://schema.org/>
@@ -18,4 +18,4 @@ export const buildQuery = (query: string, limit = 100) => `
   SELECT * WHERE {
     ${query}
   } LIMIT ${limit}
-`
+`;

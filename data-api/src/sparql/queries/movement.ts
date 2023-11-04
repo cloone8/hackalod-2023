@@ -1,20 +1,22 @@
+import SparqlClient from "sparql-http-client";
+
 import { getLastPathSegment } from "../../util";
-import { wikidataUrl } from "../client";
+import { artworksClient, wikidataClient, wikidataUrl } from "../client";
 import mapImage from "../mapImage";
 import { paintingDataQuery } from "../query";
 
-export const buildSubqueries = (movementId: string): string[] => [
-  `
-    SERVICE <${wikidataUrl}> {
-      SELECT ?name ?description WHERE {
-        BIND(wd:${movementId} as ?movement) .
+export const buildSubqueries = (movementId: string): { query: string; client: SparqlClient }[] => [
+  {
+    query: `
+      BIND(wd:${movementId} as ?movement) .
 
-        ?movement rdfs:label ?name .
-        FILTER(LANG(?name) = "nl")
-      }
-    }
+      ?movement rdfs:label ?name .
+      FILTER(LANG(?name) = "nl")
   `,
-  `
+    client: wikidataClient,
+  },
+  {
+    query: `
     ${paintingDataQuery}
 
     SERVICE <${wikidataUrl}> {
@@ -26,35 +28,37 @@ export const buildSubqueries = (movementId: string): string[] => [
       }
     }
   `,
-  `
-    SERVICE <${wikidataUrl}> {
-      SELECT ?artistwk ?artistname WHERE {
-        BIND(wd:${movementId} as ?movement) .
+    client: artworksClient,
+  },
+  {
+    query: `
+      BIND(wd:${movementId} as ?movement) .
 
-        ?artistwk wdt:P135 ?movement .
-        ?artistwk rdfs:label ?artistname .
-        ?artistwk wdt:P650 ?rkdid .
-        FILTER(LANG(?artistname) = "nl") .
-      }
-    }
-  `
-]
+      ?artistwk wdt:P135 ?movement .
+      ?artistwk rdfs:label ?artistname .
+      ?artistwk wdt:P650 ?rkdid .
+      FILTER(LANG(?artistname) = "nl") .
+  `,
+    client: wikidataClient,
+  },
+];
 
 export const mapData = ([metadata, images, links]: any[][]) => {
-  console.log(links)
+  console.log(links);
   return {
     metadata: {
       name: metadata[0].name.value,
     },
     images: mapImage(images),
-    links: links.filter((l) => l.artistwk?.value && l.artistname?.value).map((l) => ({
-      label: l.artistname.value,
-      type: 'artist',
-      id: getLastPathSegment(l.artistwk.value)
-    }))
-  }
-}
-
+    links: links
+      .filter((l) => l.artistwk?.value && l.artistname?.value)
+      .map((l) => ({
+        label: l.artistname.value,
+        type: "artist",
+        id: getLastPathSegment(l.artistwk.value),
+      })),
+  };
+};
 
 // MovementID is from rkd-artist, not wikidata
 // export const buildSubqueries = (movementId: string): string[] => [
@@ -88,7 +92,6 @@ export const mapData = ([metadata, images, links]: any[][]) => {
 //   `
 // ]
 
-
 // export const mapData = ([metadata, images, links]: any[][]) => {
 //   console.log(metadata)
 //   return {
@@ -103,4 +106,3 @@ export const mapData = ([metadata, images, links]: any[][]) => {
 //     }))
 //   }
 // }
-
