@@ -7,35 +7,50 @@ export const buildSubquery = (cityId: string): string => `
 
   SERVICE <${wikidataUrl}> {
     SELECT * WHERE {
-      ?person wdt:P19 wd:${cityId} .
-      ?person wdt:P650 ?id
+      BIND(wd:${cityId} as ?city) .
+
+      OPTIONAL {
+        ?city rdfs:label ?name .
+        FILTER(LANG(?name) = "nl")
+      }
+      OPTIONAL {
+        ?city schema:description ?description .
+        FILTER(LANG(?description) = "nl") .
+      }
+
+      ?artistwk wdt:P19 ?city .
+      ?artistwk wdt:P650 ?id .
+      ?artistwk rdfs:label ?artistname
+      BIND(REPLACE(STR(?artistwk), "http://www.wikidata.org/entity/", "") as ?artistwkid)
     }
   }
 `
 
-// export const buildMetadataQuery = (cityId: string): string => `
-//   PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-//   PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-//   PREFIX wd: <http://www.wikidata.org/entity/>
-//   PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-//   PREFIX schema: <http://schema.org/>
-//   SELECT DISTINCT ?name ?description ?artist ?artist_label WHERE {
-//     BIND(wd:${cityId} as ?city) .
-
-//     ?city rdfs:label ?name .
-//     FILTER(LANG(?name) = "nl") .
-//     ?city schema:description ?description .
-//     FILTER(LANG(?description) = "nl") .
-//     ?artist wdt:P19 ?city .
-
-//     ?artist wdt:P650 ?rkdid .
-//     ?artist rdfs:label ?artist_label .
-//     FILTER(LANG(?artist_label) = "nl")
-
-//   } LIMIT 100
-// `
-
 export const mapMetaData = (data: any[]) => {
-  return mapImage(data)
+  console.log(data)
+  const [first] = data
+
+  const links = data.reduce((total, cur) => {
+    const id = cur.artistwkid.value
+    if (!total.some((d: any) => d.id == id)) {
+      total.push({
+        label: cur.artistname.value,
+        type: 'artist',
+        id
+      })
+    }
+    return total
+  }, [] as any[])
+
+  return {
+    metadata: {
+      name: first.name.value,
+      description: first.description.value
+    },
+    images: [
+      ...mapImage(data)
+    ],
+    links
+  }
 }
 
