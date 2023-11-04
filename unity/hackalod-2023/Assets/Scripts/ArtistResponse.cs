@@ -6,7 +6,7 @@ public class ArtistResponse
 {
     public MetaData metadata;
     public List<Artwork> images;
-    public List<Door> doors;
+    public List<Link> links;
 }
 
 [Serializable]
@@ -29,7 +29,7 @@ public class MetaData
 }
 
 [Serializable]
-public class Door
+public class Link
 {
     public string label;
     public string type;

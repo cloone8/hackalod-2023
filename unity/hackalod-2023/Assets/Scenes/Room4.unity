@@ -1972,7 +1972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugPainterId: Q5598
-  SecondsPerImage: 3
+  SecondsPerImage: 1
 --- !u!1001 &709619710
 PrefabInstance:
   m_ObjectHideFlags: 0

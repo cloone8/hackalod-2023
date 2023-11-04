@@ -31,13 +31,13 @@ public class DataManager : MonoBehaviour
         currentArtworkIndex = -1;
     }
 
-    public string GetNextImageUrl()
+    public Artwork GetNextArtwork()
     {
         currentArtworkIndex++;
 
         List<Artwork> artworks = painters[currentPainter];
 
-        return artworks[currentArtworkIndex %  artworks.Count].url;
+        return artworks[currentArtworkIndex %  artworks.Count];
     }
 
     public IEnumerator FetchImage(string url)
@@ -66,7 +66,7 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            Texture2D image = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            Texture2D image = ((DownloadHandlerTexture) www.downloadHandler).texture;
 
             imageCache.Add(url, image);
             fetchImageQueue.Remove(url);
@@ -147,12 +147,12 @@ public class DataManager : MonoBehaviour
         {
             if (canvas.WantsNewImage())
             {
-                canvas.SetImageUrl(GetNextImageUrl());
+                canvas.SetArtwork(GetNextArtwork());
             }
 
-            if (!canvas.readyForNext && !fetchImageQueue.Contains(canvas.currentImageUrl))
+            if (!canvas.readyForNext && !fetchImageQueue.Contains(canvas.currentArtwork.url))
             {
-                canvas.UpdateTexture(imageCache[canvas.currentImageUrl]);
+                canvas.UpdateTexture(imageCache[canvas.currentArtwork.url]);
                 canvas.nextImageTime = DateTime.Now.AddSeconds(SecondsPerImage);
                 canvas.readyForNext = true;
             }
