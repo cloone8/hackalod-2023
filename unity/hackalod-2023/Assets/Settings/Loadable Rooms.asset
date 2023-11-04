@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionRoom: Hallway
   entranceRoom: Entrance
+  minDoors: 2
+  maxDoors: 5
   roomNames:
   - Room2
   - Room3

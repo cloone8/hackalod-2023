@@ -9,6 +9,10 @@ public class EntranceManager : MonoBehaviour
 {
     public Room startingRoom;
     void Start() {
+        Debug.Log("EntranceManager.Start()");
+        Debug.Log(startingRoom.scene);
+        Debug.Log(startingRoom.painter);
+        Debug.Log(startingRoom.prompt);
         RoomManager.Instance().InitFirstRoom(startingRoom);
     }
 }

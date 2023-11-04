@@ -9,14 +9,15 @@ using UnityEngine.Rendering.Universal;
 
 public class DataManager : MonoBehaviour
 {
-    public int SecondsPerImage = 3;
+    public int SecondsPerImage = 5;
 
-    private Dictionary<string, ArtistResponse> painters = new Dictionary<string, ArtistResponse>();
-    private Dictionary<string, Texture2D> images = new Dictionary<string, Texture2D>();
+    private List<Tuple<Link, ArtistResponse>> neighbours = new();
 
     private CanvasDecalScript[] canvases;
 
     private string currentPainter = null;
+    private ArtistResponse mainArtist = null;
+
     private int currentArtworkIndex = 0;
 
     private bool loading = false;
@@ -30,14 +31,18 @@ public class DataManager : MonoBehaviour
 
     public Artwork GetNextArtwork()
     {
+        if(mainArtist == null) {
+            return null;
+        }
+
         currentArtworkIndex++;
 
-        List<Artwork> artworks = painters[currentPainter].images;
+        List<Artwork> artworks = mainArtist.images;
 
-        return artworks[currentArtworkIndex %  artworks.Count];
+        return artworks[currentArtworkIndex % artworks.Count];
     }
 
-    public IEnumerator FetchImage(string url)
+    public IEnumerator FetchImage(string url, Action<Texture2D> callback)
     {
         string compressedUrl = "http://localhost:3000/image/" + HttpUtility.UrlEncode(url);
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(compressedUrl);
@@ -48,18 +53,18 @@ public class DataManager : MonoBehaviour
         if (www.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError("Error fetching image at " + url + ": " + www.error);
+            callback(null);
             yield break;
         }
 
         Texture2D image = ((DownloadHandlerTexture) www.downloadHandler).texture;
-
-        images.Add(url, image);
-
         Debug.Log("Successfully texture from " + url);
+
+        callback(image);
     }
 
-    private IEnumerator FetchNeighbourArtist(string path) {
-        using UnityWebRequest webRequest = UnityWebRequest.Get("http://localhost:3000/entity/" + path);
+    private IEnumerator FetchNeighbourArtist(Link link) {
+        using UnityWebRequest webRequest = UnityWebRequest.Get("http://localhost:3000/entity/" + link.type + "/" + link.id);
 
         yield return webRequest.SendWebRequest();
 
@@ -71,8 +76,9 @@ public class DataManager : MonoBehaviour
 
         ArtistResponse artist = JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text);
 
-        painters.Add(path, artist);
+        neighbours.Add(new(link, artist));
     }
+
     private IEnumerator FetchMainArtist(string path)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get("http://localhost:3000/entity/" + path);
@@ -85,26 +91,20 @@ public class DataManager : MonoBehaviour
             yield break;
         }
 
-        ArtistResponse mainArtist = JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text);
+        mainArtist = JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text);
 
-        painters.Add(path, mainArtist);
-
-        List<Coroutine> ops = new List<Coroutine>();
-
-        foreach (Artwork artwork in mainArtist.images)
-        {
-            ops.Add(StartCoroutine(FetchImage(artwork.url)));
-        }
-
+        int linksNeeded = Math.Min(mainArtist.links.Count, RoomManager.Instance().GetMaxDoors());
+        Debug.Log("Fetching " + linksNeeded + " links");
         foreach (Link link in mainArtist.links)
         {
-            ops.Add(StartCoroutine(FetchNeighbourArtist(link.type + "/" + link.id)));
-        }
+            yield return StartCoroutine(FetchNeighbourArtist(link));
+            Debug.Log("Fetched link " + link.id);
+            Debug.Log("Got " + neighbours.Count + " links");
 
-        foreach (Coroutine op in ops)
-        {
-            // Wait for all neighbours to be fetched
-            yield return op;
+            if (neighbours.Count >= linksNeeded)
+            {
+                break;
+            }
         }
     }
 
@@ -122,17 +122,15 @@ public class DataManager : MonoBehaviour
 
         loading = false;
 
-        var links = painters[painterId].links;
         var result = new List<DoorLink>();
-        foreach (var link in links)
+
+        foreach (var neighbour in neighbours)
         {
-            if (painters.ContainsKey(link.type + "/" + link.id))
-            {
-                int num = painters[link.type + "/" + link.id].links.Count;
-                result.Add(new DoorLink(link.type + "/" + link.id, link.label, num));
-            } else {
-                Debug.LogError("Missing neighbour " + link.type + "/" + link.id);
-            }
+            Link link = neighbour.Item1;
+            ArtistResponse artist = neighbour.Item2;
+
+            int num = artist.links.Count;
+            result.Add(new DoorLink(link.type + "/" + link.id, link.label, num));
         }
 
         callback(result);
@@ -143,9 +141,22 @@ public class DataManager : MonoBehaviour
         canvases = FindObjectsByType<CanvasDecalScript>(FindObjectsSortMode.None);
     }
 
+    void UpdateCanvas(CanvasDecalScript canvas) {
+        Artwork nextArtwork = GetNextArtwork();
+
+        StartCoroutine(FetchImage(nextArtwork.url, (image) => {
+            if(image == null) {
+                // Try again
+                UpdateCanvas(canvas);
+            } else {
+                canvas.SetArtwork(image, nextArtwork.label);
+            }
+        }));
+    }
+
     void Update()
     {
-        if (currentPainter == null || loading) {
+        if (currentPainter == null || loading || mainArtist == null) {
             return;
         }
 
@@ -155,8 +166,7 @@ public class DataManager : MonoBehaviour
 
             foreach (CanvasDecalScript canvas in canvases)
             {
-                Artwork nextArtwork = GetNextArtwork();
-                canvas.SetArtwork(images[nextArtwork.url], nextArtwork.label);
+                UpdateCanvas(canvas);
             }
         }
     }

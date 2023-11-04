@@ -19,12 +19,20 @@ public class RoomManager : MonoBehaviour
 
     private AsyncOperation loadOp;
 
-    private Room prevRoom = new("Entrance", null);
+    private Room prevRoom = new("Entrance", null, "");
 
     private string nextPainterId = null;
 
     public string GetRandomRoom() {
         return rooms.roomNames[UnityEngine.Random.Range(0, rooms.roomNames.Count)];
+    }
+
+    public int GetMaxDoors() {
+        return rooms.maxDoors;
+    }
+
+    public int GetMinDoors() {
+        return rooms.minDoors;
     }
 
     public void EnterRoom() {
@@ -53,7 +61,7 @@ public class RoomManager : MonoBehaviour
 
         DataManager LDM = FindCurrentDataManager();
 
-        prevRoom = LDM != null ? new Room(curScene, LDM.GetCurrentPainterId()) : new Room(curScene, null);
+        prevRoom = LDM != null ? new Room(curScene, LDM.GetCurrentPainterId(), "Go Back") : new Room(curScene, null, "Go Back");
 
         nextPainterId = destination.painter;
 
@@ -64,15 +72,9 @@ public class RoomManager : MonoBehaviour
     }
 
     private IEnumerator AsyncHandler(AsyncOperation operation, string sceneName = null) {
-        string scene = sceneName ?? "unknown";
-
-        Debug.Log("Starting async operation " + scene);
-
         while(!operation.isDone) {
             yield return null;
         }
-
-        Debug.Log("Async operation " + scene + " completed!");
     }
 
     public void InitFirstRoom(Room firstRoom) {
@@ -81,6 +83,8 @@ public class RoomManager : MonoBehaviour
         loadOp = SceneManager.LoadSceneAsync(firstRoom.scene, LoadSceneMode.Single);
         loadOp.allowSceneActivation = false;
         nextPainterId = firstRoom.painter;
+
+        Debug.Log("init next painter set to " + nextPainterId);
 
         StartCoroutine(AsyncHandler(loadOp, firstRoom.painter));
     }
@@ -109,8 +113,10 @@ public class RoomManager : MonoBehaviour
             entrance.SetDestination(prevRoom);
         }
 
-        List<RoomDoor> exits = GameObject.FindGameObjectsWithTag("Exit").ToList().ConvertAll(door => door.GetComponent<RoomDoor>());
-        // TODO: Get new edges and set up doors
+        List<RoomDoor> exits = GameObject.FindGameObjectsWithTag("Exit").ToList().ConvertAll(door => {
+            Debug.Log("Component: " + door.name);
+            return door.GetComponent<RoomDoor>();
+        });
 
         DataManager LDM = FindCurrentDataManager();
 
@@ -118,15 +124,18 @@ public class RoomManager : MonoBehaviour
             Debug.Log("Setting up LDM");
 
             StartCoroutine(LDM.SetCurrentPainter(nextPainterId, (links) => {
-                Debug.Log("Got links of artist");
+                Debug.Log("Got " + links.Count + " links of artist");
 
                 for(int i = 0; i < Math.Min(links.Count, exits.Count); i++) {
                     Debug.Log("Setting up door " + i);
+                    DoorLink link = links[i];
+                    RoomDoor exitDoor = exits[i];
 
-                    int roomNum = Math.Clamp(links[i].numLinks, rooms.minDoors, rooms.maxDoors);
+                    Debug.Log("Setting up " + link.id + " for door " + exitDoor.name);
 
-                    exits[i].SetPrompt(links[i].label);
-                    exits[i].SetDestination(new Room("Room" + i, links[i].id));
+                    int roomNum = Math.Clamp(link.numLinks, rooms.minDoors, rooms.maxDoors);
+
+                    exitDoor.SetDestination(new Room("Room" + roomNum, link.id, link.label));
                 }
             }));
         } else {

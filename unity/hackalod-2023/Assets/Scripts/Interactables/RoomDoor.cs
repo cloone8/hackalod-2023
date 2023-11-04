@@ -7,25 +7,20 @@ using UnityEngine.SceneManagement;
 public class RoomDoor : Interactable
 {
     private Room destination;
-    private string prompt = "";
-    private TextMeshProUGUI titleMesh;
+
+    public TextMeshProUGUI titleMesh;
 
     void Start() {
         if(destination.scene == null) {
             destination.scene = RoomManager.Instance().GetRandomRoom();
         }
-
-        titleMesh = this.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     public void SetDestination(Room room) {
         destination = room;
-    }
-
-    public void SetPrompt(string prompt) {
-        this.prompt = prompt;
-
-        titleMesh.SetText(prompt);
+        if(titleMesh != null) {
+            titleMesh.SetText(room.prompt);
+        }
     }
 
     public override void Interact() {
