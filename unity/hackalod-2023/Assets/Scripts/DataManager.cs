@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Web;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Rendering.Universal;
@@ -60,8 +61,9 @@ public class DataManager : MonoBehaviour
 
         fetchImageQueue.Add(url);
 
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
-        Debug.Log("Fetching texture " + url);
+        String compressedUrl = "http://localhost:3000/image/" + HttpUtility.UrlEncode(url);
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(compressedUrl);
+        Debug.Log("Fetching texture " + compressedUrl);
 
         yield return www.SendWebRequest();
 

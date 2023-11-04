@@ -8,7 +8,11 @@ export async function readableToObjectList(readable: Readable): Promise<object[]
   return result;
 }
 
-export const parseDate = (date: string): string => {
+export const parseDate = (date: string | undefined): string | undefined => {
+  if (!date) {
+    return undefined;
+  }
+
   return new Date(date).toLocaleDateString('nl-NL');
 }
 
