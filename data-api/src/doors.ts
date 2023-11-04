@@ -1,8 +1,6 @@
 import readableToObjectList from './util/readableToObjectList';
 import { genericClient } from './sparql/client';
 
-export type EntityType = 'artist'
-
 export default async function findDoors(entity: EntityType, wdentity: string) {
   let query;
   switch (entity) {
@@ -10,14 +8,13 @@ export default async function findDoors(entity: EntityType, wdentity: string) {
       query = await artistDoorsQuery(wdentity);
   }
 
-  const stream = await genericClient.query.select(query);
+  // const stream = await genericClient.query.select(query);
 
   const result = await readableToObjectList(stream);
 
   return result.map((d: any) => (
     Object.fromEntries(Object.entries(d).map(([k, v]: [string, any]) => [k, {
       id: v.value,
-      name:
     }]))
   ));
 }
