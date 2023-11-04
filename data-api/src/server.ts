@@ -1,10 +1,8 @@
 import express, { Request, Response } from 'express';
 import config from './config';
-import query from './sparql';
+import query, { entityTypes } from './sparql';
 
 import 'express-async-errors';
-
-const entityTypes = ['artist', 'city'];
 
 const app = express();
 
