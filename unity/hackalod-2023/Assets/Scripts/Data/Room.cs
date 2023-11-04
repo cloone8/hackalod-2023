@@ -1,3 +1,6 @@
+using System;
+
+[Serializable]
 public struct Room {
     public string scene;
     public string painter;

@@ -23,7 +23,6 @@ public class RoomManager : MonoBehaviour
 
     private string nextPainterId = null;
 
-
     public string GetRandomRoom() {
         return rooms.roomNames[UnityEngine.Random.Range(0, rooms.roomNames.Count)];
     }
@@ -76,15 +75,14 @@ public class RoomManager : MonoBehaviour
         Debug.Log("Async operation " + scene + " completed!");
     }
 
-    public void InitFirstRoom() {
-        string firstRoom = GetRandomRoom();
-
+    public void InitFirstRoom(Room firstRoom) {
         Debug.Log("Loading first room " + firstRoom);
 
-        loadOp = SceneManager.LoadSceneAsync(firstRoom, LoadSceneMode.Single);
+        loadOp = SceneManager.LoadSceneAsync(firstRoom.scene, LoadSceneMode.Single);
         loadOp.allowSceneActivation = false;
+        nextPainterId = firstRoom.painter;
 
-        StartCoroutine(AsyncHandler(loadOp, firstRoom));
+        StartCoroutine(AsyncHandler(loadOp, firstRoom.painter));
     }
 
     private DataManager FindCurrentDataManager() {

@@ -151,6 +151,8 @@ public class DataManager : MonoBehaviour
 
         if(lastCanvasUpdate + SecondsPerImage < Time.time)
         {
+            lastCanvasUpdate = Time.time;
+
             foreach (CanvasDecalScript canvas in canvases)
             {
                 Artwork nextArtwork = GetNextArtwork();

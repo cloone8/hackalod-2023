@@ -2774,6 +2774,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd4e5c2a6b22c46bdb5c6f3c9f75a9ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingRoom:
+    scene: Room5
+    painter: city/Q43631
 --- !u!4 &1634631315
 Transform:
   m_ObjectHideFlags: 0

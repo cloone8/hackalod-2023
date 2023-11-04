@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class EntranceManager : MonoBehaviour
 {
-   void Start() {
-    RoomManager.Instance().InitFirstRoom();
-   }
+    public Room startingRoom;
+    void Start() {
+        RoomManager.Instance().InitFirstRoom(startingRoom);
+    }
 }
