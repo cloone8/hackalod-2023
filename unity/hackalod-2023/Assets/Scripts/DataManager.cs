@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,35 +8,27 @@ using UnityEngine.Rendering.Universal;
 
 public class DataManager : MonoBehaviour
 {
-    private static DataManager instance = null;
+    public string debugPainterId;
+    public int SecondsPerImage = 3;
 
-    public HashSet<string> painterQueue;
-    public HashSet<string> imageQueue;
+    private HashSet<string> painterQueue;
+    private HashSet<string> fetchImageQueue;
 
-    public Dictionary<string, List<Artwork>> painters;
-    public Dictionary<string, Texture2D> imageCache;
+    private Dictionary<string, List<Artwork>> painters;
+    private Dictionary<string, Texture2D> imageCache;
+
+    private CanvasDecalScript[] canvases;
 
     private string currentPainter;
     private int currentArtworkIndex;
 
-    private DataManager()
+    public DataManager()
     {
         painters = new Dictionary<string, List<Artwork>>();
         imageCache = new Dictionary<string, Texture2D>();
         painterQueue = new HashSet<string>();
-        imageQueue = new HashSet<string>();
+        fetchImageQueue = new HashSet<string>();
         currentArtworkIndex = -1;
-    }
-
-    public static DataManager Instance()
-    {
-        if (instance == null)
-        {
-            GameObject gameObject = new GameObject("DataManager");
-            instance = gameObject.AddComponent<DataManager>();
-        }
-
-        return instance;
     }
 
     public string GetNextImageUrl()
@@ -54,13 +47,13 @@ public class DataManager : MonoBehaviour
             Debug.Log("Image already present in cache " + url);
             yield break;
         }
-        if (imageQueue.Contains(url))
+        if (fetchImageQueue.Contains(url))
         {
             Debug.Log("Image already being fetched " + url);
             yield break;
         }
 
-        imageQueue.Add(url);
+        fetchImageQueue.Add(url);
 
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
         Debug.Log("Fetching texture " + url);
@@ -76,7 +69,7 @@ public class DataManager : MonoBehaviour
             Texture2D image = ((DownloadHandlerTexture)www.downloadHandler).texture;
 
             imageCache.Add(url, image);
-            imageQueue.Remove(url);
+            fetchImageQueue.Remove(url);
 
             Debug.Log("Fetched texture from " + url);
         }
@@ -125,19 +118,45 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    // Wouter you should call this method to start fetching stuff
     public void SetCurrentPainter(string painterId)
     {
         currentPainter = painterId;
         currentArtworkIndex = -1;
+        StartCoroutine(FetchArtworks(painterId));
     }
 
-    public List<Artwork> GetArtworks(string painterId)
+    void Start()
     {
-        if (painters.ContainsKey(painterId))
+        if (!String.IsNullOrWhiteSpace(debugPainterId))
         {
-            return painters[painterId];
+            SetCurrentPainter(debugPainterId);
+        }
+        
+        canvases = FindObjectsByType<CanvasDecalScript>(FindObjectsSortMode.None);
+    }
+
+    void Update()
+    {
+        if (currentPainter == null || painterQueue.Contains(currentPainter))
+        {
+            return;
         }
 
-        return new List<Artwork>();
+        foreach (CanvasDecalScript canvas in canvases)
+        {
+            if (canvas.WantsNewImage())
+            {
+                canvas.SetImageUrl(GetNextImageUrl());
+            }
+
+            if (!canvas.readyForNext && !fetchImageQueue.Contains(canvas.currentImageUrl))
+            {
+                canvas.UpdateTexture(imageCache[canvas.currentImageUrl]);
+                canvas.nextImageTime = DateTime.Now.AddSeconds(SecondsPerImage);
+                canvas.readyForNext = true;
+            }
+            
+        }
     }
 }
