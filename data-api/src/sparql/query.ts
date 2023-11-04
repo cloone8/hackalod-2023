@@ -1,14 +1,9 @@
-import { artworksV2Url } from "./client"
-
 export const paintingDataQuery = `
-  SERVICE <${artworksV2Url}> {
-    SELECT ?name ?description ?contentUrl WHERE {
-      ?painting schemas:creator ?id .
-      ?painting schemas:image [schemas:contentUrl ?contentUrl] .
-      OPTIONAL { ?painting schemas:name ?name . }
-      OPTIONAL { ?painting schemas:description ?description }
-    }
-  }
+  ?artist schema:identifier ?id .
+  ?painting schemas:creator ?artist .
+  ?painting schemas:image [schemas:contentUrl ?contentUrl] .
+  OPTIONAL { ?painting schemas:name ?name . }
+  OPTIONAL { ?painting schemas:description ?description }
 `
 
 export const buildQuery = (query: string, limit = 100) => `

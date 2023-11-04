@@ -1,5 +1,5 @@
 import readableToObjectList from "../util/readableToObjectList";
-import { genericClient } from "./client";
+import { artworksClient } from "./client";
 import { buildQuery } from "./query";
 
 export type EntityType = 'artist'
@@ -9,9 +9,7 @@ export default async (entityType: EntityType, entityId: string) => {
 
   const q = buildQuery(buildSubquery(entityId));
 
-  console.log(q);
-
-  return genericClient.query.select(q)
+  return artworksClient.query.select(q)
     .then(readableToObjectList)
     .then(mapPaintingDataQuery);
 }
