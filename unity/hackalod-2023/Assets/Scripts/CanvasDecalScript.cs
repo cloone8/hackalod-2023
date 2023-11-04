@@ -25,6 +25,7 @@ public class CanvasDecalScript : MonoBehaviour
 
     public void UpdateTexture(Texture2D image)
     {
+        //image.width
         decalMaterial.SetTexture("Base_Map", image);
     }
 
