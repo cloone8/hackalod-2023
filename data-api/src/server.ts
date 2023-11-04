@@ -31,6 +31,12 @@ app.get(`/image/:url`, async (req: Request, res: Response) => {
   const response = await fetch(url);
 
   const contentType = response.headers.get('Content-Type');
+  const contentLength = response.headers.get('Content-Length');
+
+  if (!contentLength || parseInt(contentLength) > 100000000) {
+    return res.status(400).end();
+  }
+
   const input = await response.arrayBuffer()
 
   const resized = await sharp(input).resize(null, 1024).toBuffer()

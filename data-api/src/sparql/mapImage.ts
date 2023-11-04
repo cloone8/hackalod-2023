@@ -3,9 +3,11 @@ export default (data: any[] | undefined) => {
     return [];
   }
 
-  return data.map((row) => ({
-    label: row.paintingname.value,
-    desc: row.paintingdesc.value,
-    url: row.paintingurl.value,
-  }))
+  return data
+      .filter((row) => row.paintingurl && row.paintingname)
+      .map((row) => ({
+        label: row.paintingname?.value,
+        desc: row.paintingdesc?.value,
+        url: row.paintingurl?.value,
+      }))
 }
