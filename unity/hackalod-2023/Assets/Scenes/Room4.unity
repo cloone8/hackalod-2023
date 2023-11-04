@@ -5047,6 +5047,11 @@ PrefabInstance:
       propertyPath: painterId
       value: Q5598
       objectReference: {fileID: 0}
+    - target: {fileID: 5494314570904740137, guid: 563075c96526a4fa0852d4a2fd345698,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 7006228734494874975, guid: 563075c96526a4fa0852d4a2fd345698,
         type: 3}
       propertyPath: m_Name

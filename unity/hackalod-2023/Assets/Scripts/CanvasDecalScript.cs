@@ -16,15 +16,16 @@ public class CanvasDecalScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Material templateMaterial = this.GetComponent<DecalProjector>().material;
-        this.GetComponent<DecalProjector>().material = new Material(templateMaterial);
-        decalMaterial = this.GetComponent<DecalProjector>().material;
+        Material templateMaterial = this.GetComponentInChildren<DecalProjector>().material;
+        this.GetComponentInChildren<DecalProjector>().material = new Material(templateMaterial);
+        decalMaterial = this.GetComponentInChildren<DecalProjector>().material;
         nextImageTime = DateTime.MinValue;
         readyForNext = true;
     }
 
     public void UpdateTexture(Texture2D image)
     {
+        //image.width
         decalMaterial.SetTexture("Base_Map", image);
     }
 

@@ -37,7 +37,7 @@ public class DataManager : MonoBehaviour
 
         List<Artwork> artworks = painters[currentPainter];
 
-        return artworks[currentArtworkIndex %  artworks.Count].contentUrl;
+        return artworks[currentArtworkIndex %  artworks.Count].url;
     }
 
     public IEnumerator FetchImage(string url)
@@ -101,9 +101,9 @@ public class DataManager : MonoBehaviour
         else
         {
             Debug.Log("Got response: " + webRequest.downloadHandler.text);
-            Debug.Log("parsed " + JsonUtility.FromJson<ArtistResponse>("{\"artworks\":" + webRequest.downloadHandler.text + "}"));
-            Debug.Log("parsed list " + JsonUtility.FromJson<ArtistResponse>("{\"artworks\":" + webRequest.downloadHandler.text + "}").artworks);
-            painters.Add(painterId, JsonUtility.FromJson<ArtistResponse>("{\"artworks\":"+webRequest.downloadHandler.text+"}").artworks);
+            Debug.Log("parsed " + JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text));
+            Debug.Log("parsed list " + JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text).images);
+            painters.Add(painterId, JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text).images);
 
             painterQueue.Remove(painterId);
 
@@ -113,7 +113,7 @@ public class DataManager : MonoBehaviour
 
             foreach(Artwork artwork in painters[painterId])
             {
-                StartCoroutine(FetchImage(artwork.contentUrl));
+                StartCoroutine(FetchImage(artwork.url));
             }
         }
     }
