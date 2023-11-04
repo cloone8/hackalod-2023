@@ -35,6 +35,7 @@ export const buildSubqueries = (cityId: string): string[] => [
 
         ?artistwk wdt:P19 ?city .
         ?artistwk rdfs:label ?artistname .
+        ?artistwk wdt:P650 ?artistid .
         FILTER(LANG(?artistname) = "nl") .
       }
     }
