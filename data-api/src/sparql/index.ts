@@ -2,9 +2,7 @@ import readableToObjectList from "../util/readableToObjectList";
 import { artworksClient } from "./client";
 import { buildQuery } from "./query";
 
-export type EntityType = 'artist'
-
-export default async (entityType: EntityType, entityId: string) => {
+export default async (entityType: string, entityId: string) => {
   const { buildSubquery } = require(`./queries/${entityType}`);
 
   const q = buildQuery(buildSubquery(entityId));
