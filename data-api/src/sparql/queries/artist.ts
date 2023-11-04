@@ -34,10 +34,19 @@ export const buildSubqueries = (artistId: string): string[] => {
         ?wid wdt:P650 ?rkdid .
       }
     }`,
+    `
+    SERVICE <${wikidataUrl}> {
+      SELECT * WHERE {
+        BIND(wd:Q5598 as ?wid) .
+        ?wid wdt:P135 ?movement .
+        ?movement rdfs:label ?movementlabel .
+        FILTER (lang(?movementlabel) = 'nl') .
+      }
+    }`,
   ];
 }
 
-export const mapData = ([metadata, images]: any[][]) => {
+export const mapData = ([metadata, images, movements]: any[][]) => {
   const [metafirst] = metadata;
 
   return {
@@ -48,6 +57,7 @@ export const mapData = ([metadata, images]: any[][]) => {
       pod: metafirst.podlabel.value,
       dod: parseDate(metafirst.dod.value),
       spouse: metafirst.spouselabel.value,
+      movements: movements.map(m => m.movementlabel.value).join(', '),
     },
     images: [
       {
@@ -66,7 +76,12 @@ export const mapData = ([metadata, images]: any[][]) => {
         label: `Sterfplaats: ${metafirst.podlabel.value}`,
         type: "city",
         id: getLastPathSegment(metafirst.pod.value),
-      }
+      },
+      ...movements.map(m => ({
+        label: `Beweging: ${m.movementlabel.value}`,
+        type: "movement",
+        id: getLastPathSegment(m.movement.value),
+      }))
     ]
   }
 }
