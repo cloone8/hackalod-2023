@@ -1,27 +1,43 @@
-import { artworksClient } from "./sparql/client";
+import readableToObjectList from './util/readableToObjectList';
+import { genericClient } from './sparql/client';
 
-export default async function findDoors(origin: string) {
-  const query = `
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+export type EntityType = 'artist'
+
+export default async function findDoors(entity: EntityType, wdentity: string) {
+  let query;
+  switch (entity) {
+    case 'artist':
+      query = await artistDoorsQuery(wdentity);
+  }
+
+  const stream = await genericClient.query.select(query);
+
+  const result = await readableToObjectList(stream);
+
+  return result.map((d: any) => (
+    Object.fromEntries(Object.entries(d).map(([k, v]: [string, any]) => [k, {
+      id: v.value,
+      name:
+    }]))
+  ));
+}
+
+async function artistDoorsQuery(wdentity: string): Promise<string> {
+  return `
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX rkdo: <http://data.rkd.nl/def#>
-    PREFIX rkda: <https://data.rkd.nl/artists/>
-    PREFIX schema: <http://schema.org/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 
-    SELECT ?name {
-      rkda:80476 schema:name ?name
-    }
-    ORDER BY ?name
-    LIMIT 10
-  `
-
-  const stream = await artworksClient.query.select(query);
-
-  stream.on("data", (row) => {
-    Object.entries(row).forEach(([key, value]: [string, any]) => {
-      console.log(`${key}: ${value.value} (${value.termType})`)
-    })
-  })
-
-  return Promise.resolve();
+    SELECT *
+    WHERE {
+      SERVICE <https://query.wikidata.org/sparql> {
+        SELECT * WHERE {
+          BIND (wd:${wdentity} AS ?artist) .
+          ?artist wdt:P135 ?movement .
+          ?artist wdt:P19 ?pob .
+          ?artist wdt:P463 ?memberof
+        }
+      }
+    } LIMIT 100
+  `;
 }

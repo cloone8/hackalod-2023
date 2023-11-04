@@ -1,14 +1,11 @@
-/**
- * Setup express server.
- */
 import express, { Request, Response } from 'express';
 import config from './config';
 
 import 'express-async-errors';
-import findDoors from './doors';
+import findDoors, { EntityType } from './doors';
 import { getArtworksByCity, getArtworksByPainter } from './artworks';
 
-// **** Variables **** //
+const entityTypes = ['artist'];
 
 const app = express();
 
@@ -18,10 +15,16 @@ app.get('/status', (req: Request, res: Response) => {
   return res.status(200).json({ message: 'I\'m alive!'})
 })
 
-app.get('/doors', async (req: Request, res: Response) => {
-  await findDoors("bla");
+app.get('/:entityType/:entityId', async (req: Request, res: Response) => {
+  const { entityType, entityId } = req.params;
 
-  return res.status(200).json({});
+  if (!entityTypes.includes(entityType)) {
+    return res.status(400).json({ error: `Invalid entity type ${entityType}. Expected one of [${entityTypes.join(', ')}]`})
+  }
+
+  const doors = await findDoors(entityType as EntityType, entityId);
+
+  return res.status(200).json(doors);
 })
 
 app.get('/artworks', async (req: Request, res: Response) => {
