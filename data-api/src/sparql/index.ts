@@ -1,4 +1,4 @@
-import readableToObjectList from "../util/readableToObjectList";
+import { readableToObjectList } from "../util";
 import { artworksClient } from "./client";
 import { buildQuery } from "./query";
 
