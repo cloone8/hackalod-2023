@@ -37,6 +37,21 @@ export const buildSubqueries = (artistId: string): string[] => {
       }
     }`,
     `
+    SERVICE <https://query.wikidata.org/sparql> {
+      SELECT * WHERE {
+        BIND(wd:${artistId} as ?wid) .
+        OPTIONAL {
+        	?wid wdt:P800 $painting .
+        	?painting rdfs:label ?paintingname .
+          ?painting wdt:P1476 ?paintingdesc .
+          $painting wdt:P18 $paintingurl .
+        	FILTER(lang($paintingdesc) = 'nl') .
+      		FILTER(lang($paintingname) = 'nl') .
+      	}
+      }
+    }
+    `,
+    `
     SERVICE <${wikidataUrl}> {
       SELECT * WHERE {
         BIND(wd:${artistId} as ?wid) .
@@ -48,7 +63,7 @@ export const buildSubqueries = (artistId: string): string[] => {
   ];
 }
 
-export const mapData = ([metadata, images, movements]: any[][]) => {
+export const mapData = ([metadata, images, images2, movements]: any[][]) => {
   const [metafirst] = metadata;
 
   return {
@@ -62,11 +77,12 @@ export const mapData = ([metadata, images, movements]: any[][]) => {
       movements: movements.map(m => m.movementlabel?.value).join(', '),
     },
     images: [
-      {
+      ...(metafirst.image ? [{
         label: metafirst.name?.value,
         url: metafirst.image?.value,
-      },
-      ...mapImage(images)
+      }] : []),
+      ...mapImage(images),
+      ...mapImage(images2)
     ],
     links: [
       ...(metafirst.pob && metafirst.poblabel ? [{
