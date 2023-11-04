@@ -14,7 +14,7 @@ public class DataManager : MonoBehaviour
     private HashSet<string> painterQueue;
     private HashSet<string> fetchImageQueue;
 
-    private Dictionary<string, List<Artwork>> painters;
+    private Dictionary<string, ArtistResponse> painters;
     private Dictionary<string, Texture2D> imageCache;
 
     private CanvasDecalScript[] canvases;
@@ -24,7 +24,7 @@ public class DataManager : MonoBehaviour
 
     public DataManager()
     {
-        painters = new Dictionary<string, List<Artwork>>();
+        painters = new Dictionary<string, ArtistResponse>();
         imageCache = new Dictionary<string, Texture2D>();
         painterQueue = new HashSet<string>();
         fetchImageQueue = new HashSet<string>();
@@ -40,7 +40,7 @@ public class DataManager : MonoBehaviour
     {
         currentArtworkIndex++;
 
-        List<Artwork> artworks = painters[currentPainter];
+        List<Artwork> artworks = painters[currentPainter].images;
 
         return artworks[currentArtworkIndex %  artworks.Count];
     }
@@ -80,22 +80,39 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public IEnumerator FetchArtworks(string painterId)
+    public IEnumerator FetchArtist(string path, bool fetchNeighbours, bool fetchImages)
     {
-        if (painters.ContainsKey(painterId))
+        if (painters.ContainsKey(path))
         {
-            Debug.Log("Painter is already fetched " + painterId);
+            Debug.Log("Painter is already fetched " + path);
+
+            if (fetchNeighbours)
+            {
+                foreach (Link link in painters[path].links)
+                {
+                    StartCoroutine(FetchArtist(link.type + "/" + link.id, false, false));
+                }
+            }
+
+            if (fetchImages)
+            {
+                foreach (Artwork artwork in painters[path].images)
+                {
+                    StartCoroutine(FetchImage(artwork.url));
+                }
+            }
+
             yield break;
         }
-        if (painterQueue.Contains(painterId))
+        if (painterQueue.Contains(path))
         {
-            Debug.Log("Painter is already being fetched " + painterId);
+            Debug.Log("Painter is already being fetched " + path);
             yield break;
         }
 
-        painterQueue.Add(painterId);
+        painterQueue.Add(path);
 
-        using UnityWebRequest webRequest = UnityWebRequest.Get("http://localhost:3000/artist/" + painterId);
+        using UnityWebRequest webRequest = UnityWebRequest.Get("http://localhost:3000/entity/" + path);
 
         yield return webRequest.SendWebRequest();
 
@@ -105,22 +122,48 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Got response: " + webRequest.downloadHandler.text);
-            Debug.Log("parsed " + JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text));
-            Debug.Log("parsed list " + JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text).images);
-            painters.Add(painterId, JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text).images);
+            painters.Add(path, JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text));
 
-            painterQueue.Remove(painterId);
+            painterQueue.Remove(path);
 
-            Debug.Log("Painter size " + painters.Count);
-            Debug.Log("Painter " + painters.GetValueOrDefault(painterId));
-            Debug.Log("Fetched data for painter " + painterId + ", got " + painters[painterId].Count + " artworks");
-
-            foreach(Artwork artwork in painters[painterId])
+            if (fetchNeighbours)
             {
-                StartCoroutine(FetchImage(artwork.url));
+                foreach (Link link in painters[path].links)
+                {
+                    StartCoroutine(FetchArtist(link.type + "/" + link.id, false, false));
+                }
+            }
+
+            if (fetchImages)
+            {
+                foreach (Artwork artwork in painters[path].images)
+                {
+                    StartCoroutine(FetchImage(artwork.url));
+                }
             }
         }
+    }
+
+    // Check if painterQueue is empty before calling this
+    public List<Tuple<string, string, int>> GetLinksOfArtist(string path)
+    {
+        if (!painters.ContainsKey(path))
+        {
+            return new List<Tuple<string, string, int>>();
+        }
+
+        var links = painters[path].links;
+        var result = new List<Tuple<string, string, int>>();
+        foreach (var link in links)
+        {
+            int num = -1;
+            if (painters.ContainsKey(link.type + "/" + link.id))
+            {
+                num = painters[link.type + "/" + link.id].links.Count;
+            }
+            result.Add(new Tuple<string, string, int>(link.type + "/" + link.id, link.label, num));
+        }
+        return result;
     }
 
     // Wouter you should call this method to start fetching stuff
@@ -131,7 +174,7 @@ public class DataManager : MonoBehaviour
         currentPainter = painterId;
 
         currentArtworkIndex = -1;
-        StartCoroutine(FetchArtworks(painterId));
+        StartCoroutine(FetchArtist(painterId, true, true));
     }
 
     void Start()
