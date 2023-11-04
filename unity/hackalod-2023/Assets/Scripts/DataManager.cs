@@ -149,7 +149,7 @@ public class DataManager : MonoBehaviour
                 // Try again
                 UpdateCanvas(canvas);
             } else {
-                canvas.SetArtwork(image, nextArtwork.label);
+                canvas.SetArtwork(image, nextArtwork.label, mainArtist.metadata);
             }
         }));
     }

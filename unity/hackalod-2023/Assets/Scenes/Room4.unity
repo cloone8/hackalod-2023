@@ -5032,6 +5032,11 @@ PrefabInstance:
       propertyPath: debugPainterId
       value: artist/Q5598
       objectReference: {fileID: 0}
+    - target: {fileID: 5635636082574857926, guid: 2a5d51e3c1e8441eab2ef08aed2e46ce,
+        type: 3}
+      propertyPath: SecondsPerImage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7087707252693172015, guid: 2a5d51e3c1e8441eab2ef08aed2e46ce,
         type: 3}
       propertyPath: m_Name
