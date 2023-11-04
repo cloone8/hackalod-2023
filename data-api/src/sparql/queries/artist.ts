@@ -6,9 +6,12 @@ import { paintingDataQuery } from "../query";
 export const buildSubqueries = (artistId: string): string[] => {
   return [
     `
+    ${paintingDataQuery}
+
     SERVICE <${wikidataUrl}> {
       SELECT * WHERE {
         BIND(wd:${artistId} as ?wid) .
+        ?wid wdt:P650 ?rkdid .
         ?wid rdfs:label ?name .
         OPTIONAL {
           ?wid wdt:P18 $image .
