@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class RoomDoor : Interactable
 {
     private Room destination;
+    private string prompt = "";
 
     void Start() {
         if(destination.scene == null) {
@@ -15,6 +16,10 @@ public class RoomDoor : Interactable
 
     public void SetDestination(Room room) {
         destination = room;
+    }
+
+    public void SetPrompt(string prompt) {
+        this.prompt = prompt;
     }
 
     public override void Interact() {

@@ -145,15 +145,18 @@ public class DataManager : MonoBehaviour
     }
 
     // Check if painterQueue is empty before calling this
-    public List<Tuple<string, string, int>> GetLinksOfArtist(string path)
+    public IEnumerator GetLinksOfArtist(string path, Action<List<DoorLink>> callback)
     {
+        yield return new WaitUntil(() => painterQueue.Count == 0);
+
         if (!painters.ContainsKey(path))
         {
-            return new List<Tuple<string, string, int>>();
+            callback(new List<DoorLink>());
+            yield break;
         }
 
         var links = painters[path].links;
-        var result = new List<Tuple<string, string, int>>();
+        var result = new List<DoorLink>();
         foreach (var link in links)
         {
             int num = -1;
@@ -161,9 +164,11 @@ public class DataManager : MonoBehaviour
             {
                 num = painters[link.type + "/" + link.id].links.Count;
             }
-            result.Add(new Tuple<string, string, int>(link.type + "/" + link.id, link.label, num));
+            result.Add(new DoorLink(link.type + "/" + link.id, link.label, num));
         }
-        return result;
+
+        callback(result);
+        yield break;
     }
 
     // Wouter you should call this method to start fetching stuff

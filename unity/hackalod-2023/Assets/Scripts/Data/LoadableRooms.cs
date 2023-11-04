@@ -11,5 +11,8 @@ public class LoadableRooms : ScriptableObject
 
     public string entranceRoom;
 
+    public int minDoors;
+    public int maxDoors;
+
     public List<string> roomNames;
 }
