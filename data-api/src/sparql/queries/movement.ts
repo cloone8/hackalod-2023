@@ -1,23 +1,21 @@
 import SparqlClient from "sparql-http-client";
 
 import { getLastPathSegment } from "../../util";
-import { artworksClient, wikidataUrl } from "../client";
+import { artworksClient, wikidataClient, wikidataUrl } from "../client";
 import mapImage from "../mapImage";
 import { paintingDataQuery } from "../query";
 
 export const buildSubqueries = (movementId: string): { query: string; client: SparqlClient }[] => [
   {
     query: `
-    SERVICE <${wikidataUrl}> {
-      SELECT ?name ?description WHERE {
-        BIND(wd:${movementId} as ?movement) .
+    SELECT ?name ?description WHERE {
+      BIND(wd:${movementId} as ?movement) .
 
-        ?movement rdfs:label ?name .
-        FILTER(LANG(?name) = "nl")
-      }
+      ?movement rdfs:label ?name .
+      FILTER(LANG(?name) = "nl")
     }
   `,
-    client: artworksClient,
+    client: wikidataClient,
   },
   {
     query: `
@@ -36,18 +34,16 @@ export const buildSubqueries = (movementId: string): { query: string; client: Sp
   },
   {
     query: `
-    SERVICE <${wikidataUrl}> {
-      SELECT ?artistwk ?artistname WHERE {
-        BIND(wd:${movementId} as ?movement) .
+    SELECT ?artistwk ?artistname WHERE {
+      BIND(wd:${movementId} as ?movement) .
 
-        ?artistwk wdt:P135 ?movement .
-        ?artistwk rdfs:label ?artistname .
-        ?artistwk wdt:P650 ?rkdid .
-        FILTER(LANG(?artistname) = "nl") .
-      }
+      ?artistwk wdt:P135 ?movement .
+      ?artistwk rdfs:label ?artistname .
+      ?artistwk wdt:P650 ?rkdid .
+      FILTER(LANG(?artistname) = "nl") .
     }
   `,
-    client: artworksClient,
+    client: wikidataClient,
   },
 ];
 

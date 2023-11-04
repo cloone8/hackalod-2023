@@ -1,25 +1,23 @@
 import SparqlClient from "sparql-http-client";
 
 import { getLastPathSegment } from "../../util";
-import { artworksClient, wikidataUrl } from "../client";
+import { artworksClient, wikidataClient, wikidataUrl } from "../client";
 import mapImage from "../mapImage";
 import { paintingDataQuery } from "../query";
 
 export const buildSubqueries = (cityId: string): { query: string; client: SparqlClient }[] => [
   {
     query: `
-    SERVICE <${wikidataUrl}> {
-      SELECT ?name ?description WHERE {
-        BIND(wd:${cityId} as ?city) .
+    SELECT ?name ?description WHERE {
+      BIND(wd:${cityId} as ?city) .
 
-        ?city rdfs:label ?name .
-        FILTER(LANG(?name) = "nl")
-        ?city schema:description ?description .
-        FILTER(LANG(?description) = "nl") .
-      }
+      ?city rdfs:label ?name .
+      FILTER(LANG(?name) = "nl")
+      ?city schema:description ?description .
+      FILTER(LANG(?description) = "nl") .
     }
   `,
-    client: artworksClient,
+    client: wikidataClient,
   },
   {
     query: `
@@ -38,18 +36,16 @@ export const buildSubqueries = (cityId: string): { query: string; client: Sparql
   },
   {
     query: `
-    SERVICE <${wikidataUrl}> {
-      SELECT ?artistwk ?artistname WHERE {
-        BIND(wd:${cityId} as ?city) .
+    SELECT ?artistwk ?artistname WHERE {
+      BIND(wd:${cityId} as ?city) .
 
-        ?artistwk wdt:P19 ?city .
-        ?artistwk rdfs:label ?artistname .
-        ?artistwk wdt:P650 ?artistid .
-        FILTER(LANG(?artistname) = "nl") .
-      }
+      ?artistwk wdt:P19 ?city .
+      ?artistwk rdfs:label ?artistname .
+      ?artistwk wdt:P650 ?artistid .
+      FILTER(LANG(?artistname) = "nl") .
     }
   `,
-    client: artworksClient,
+    client: wikidataClient,
   },
 ];
 

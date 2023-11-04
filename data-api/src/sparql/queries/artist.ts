@@ -1,7 +1,7 @@
 import SparqlClient from "sparql-http-client";
 
 import { getLastPathSegment, parseDate } from "../../util";
-import { artworksClient, wikidataUrl } from "../client";
+import { artworksClient, wikidataClient, wikidataUrl } from "../client";
 import mapImage from "../mapImage";
 import { paintingDataQuery } from "../query";
 
@@ -9,31 +9,26 @@ export const buildSubqueries = (artistId: string): { query: string; client: Spar
   return [
     {
       query: `
-        ${paintingDataQuery}
-
-        SERVICE <${wikidataUrl}> {
-          SELECT * WHERE {
-            BIND(wd:${artistId} as ?wid) .
-            ?wid wdt:P650 ?rkdid .
-            ?wid rdfs:label ?name .
-            OPTIONAL {
-              ?wid wdt:P18 $image .
-              ?wid wdt:P19 ?pob .
-              ?pob rdfs:label ?poblabel .
-              ?wid wdt:P569 ?dob .
-              ?wid wdt:P20 ?pod .
-              ?pod rdfs:label ?podlabel .
-              ?wid wdt:P570 ?dod .
-              ?wid wdt:P26 ?spouse .
-              ?spouse rdfs:label ?spouselabel .
-              FILTER (lang(?spouselabel) = 'nl') .
-              FILTER (lang(?poblabel) = 'nl') .
-              FILTER (lang(?podlabel) = 'nl') .
-            } .
-            FILTER (lang(?name) = 'nl') .
-          }
-        }`,
-      client: artworksClient,
+        BIND(wd:${artistId} as ?wid) .
+        ?wid wdt:P650 ?rkdid .
+        ?wid rdfs:label ?name .
+        OPTIONAL {
+          ?wid wdt:P18 $image .
+          ?wid wdt:P19 ?pob .
+          ?pob rdfs:label ?poblabel .
+          ?wid wdt:P569 ?dob .
+          ?wid wdt:P20 ?pod .
+          ?pod rdfs:label ?podlabel .
+          ?wid wdt:P570 ?dod .
+          ?wid wdt:P26 ?spouse .
+          ?spouse rdfs:label ?spouselabel .
+          FILTER (lang(?spouselabel) = 'nl') .
+          FILTER (lang(?poblabel) = 'nl') .
+          FILTER (lang(?podlabel) = 'nl') .
+        } .
+        FILTER (lang(?name) = 'nl') .
+      `,
+      client: wikidataClient,
     },
     {
       query: `
@@ -49,7 +44,6 @@ export const buildSubqueries = (artistId: string): { query: string; client: Spar
     },
     {
       query: `
-    SERVICE <https://query.wikidata.org/sparql> {
       SELECT * WHERE {
         BIND(wd:${artistId} as ?wid) .
         OPTIONAL {
@@ -61,21 +55,19 @@ export const buildSubqueries = (artistId: string): { query: string; client: Spar
       		FILTER(lang($paintingname) = 'nl') .
       	}
       }
-    }
     `,
-      client: artworksClient,
+      client: wikidataClient,
     },
     {
       query: `
-    SERVICE <${wikidataUrl}> {
       SELECT * WHERE {
         BIND(wd:${artistId} as ?wid) .
         ?wid wdt:P135 ?movement .
         ?movement rdfs:label ?movementlabel .
         FILTER (lang(?movementlabel) = 'nl') .
       }
-    }`,
-      client: artworksClient,
+    `,
+      client: wikidataClient,
     },
   ];
 };
