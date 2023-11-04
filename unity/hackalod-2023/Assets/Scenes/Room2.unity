@@ -5909,7 +5909,8 @@ GameObject:
   - component: {fileID: 1926324809}
   - component: {fileID: 1926324808}
   - component: {fileID: 1926324807}
-  m_Layer: 0
+  - component: {fileID: 1926324810}
+  m_Layer: 6
   m_Name: back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6004,6 +6005,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1926324805}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1926324810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926324805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e0e998182540497397d2a6a8aa4a903, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1932261177
 GameObject:
   m_ObjectHideFlags: 0
