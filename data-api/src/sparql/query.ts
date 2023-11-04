@@ -1,9 +1,9 @@
 export const paintingDataQuery = `
   ?artist schema:identifier ?rkdid .
   ?painting schemas:creator ?artist .
-  ?painting schemas:image [schemas:contentUrl ?contentUrl] .
-  OPTIONAL { ?painting schemas:name ?name . }
-  OPTIONAL { ?painting schemas:description ?description }
+  ?painting schemas:image [schemas:contentUrl ?paintingurl] .
+  OPTIONAL { ?painting schemas:name ?paintingname . }
+  OPTIONAL { ?painting schemas:description ?paintingdesc }
 `
 
 export const buildQuery = (query: string, limit = 100) => `
