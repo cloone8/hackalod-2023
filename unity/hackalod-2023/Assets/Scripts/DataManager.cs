@@ -9,28 +9,19 @@ using UnityEngine.Rendering.Universal;
 
 public class DataManager : MonoBehaviour
 {
-    public string debugPainterId;
     public int SecondsPerImage = 3;
 
-    private HashSet<string> painterQueue;
-    private HashSet<string> fetchImageQueue;
-
-    private Dictionary<string, ArtistResponse> painters;
-    private Dictionary<string, Texture2D> imageCache;
+    private Dictionary<string, ArtistResponse> painters = new Dictionary<string, ArtistResponse>();
+    private Dictionary<string, Texture2D> images = new Dictionary<string, Texture2D>();
 
     private CanvasDecalScript[] canvases;
 
     private string currentPainter = null;
-    private int currentArtworkIndex;
+    private int currentArtworkIndex = 0;
 
-    public DataManager()
-    {
-        painters = new Dictionary<string, ArtistResponse>();
-        imageCache = new Dictionary<string, Texture2D>();
-        painterQueue = new HashSet<string>();
-        fetchImageQueue = new HashSet<string>();
-        currentArtworkIndex = -1;
-    }
+    private bool loading = false;
+
+    private float lastCanvasUpdate = 0;
 
     public string GetCurrentPainterId()
     {
@@ -48,20 +39,7 @@ public class DataManager : MonoBehaviour
 
     public IEnumerator FetchImage(string url)
     {
-        if (imageCache.ContainsKey(url))
-        {
-            Debug.Log("Image already present in cache " + url);
-            yield break;
-        }
-        if (fetchImageQueue.Contains(url))
-        {
-            Debug.Log("Image already being fetched " + url);
-            yield break;
-        }
-
-        fetchImageQueue.Add(url);
-
-        String compressedUrl = "http://localhost:3000/image/" + HttpUtility.UrlEncode(url);
+        string compressedUrl = "http://localhost:3000/image/" + HttpUtility.UrlEncode(url);
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(compressedUrl);
         Debug.Log("Fetching texture " + compressedUrl);
 
@@ -69,51 +47,18 @@ public class DataManager : MonoBehaviour
 
         if (www.result != UnityWebRequest.Result.Success)
         {
-            Debug.LogError(www.error);
+            Debug.LogError("Error fetching image at " + url + ": " + www.error);
+            yield break;
         }
-        else
-        {
-            Texture2D image = ((DownloadHandlerTexture) www.downloadHandler).texture;
 
-            imageCache.Add(url, image);
-            fetchImageQueue.Remove(url);
+        Texture2D image = ((DownloadHandlerTexture) www.downloadHandler).texture;
 
-            Debug.Log("Fetched texture from " + url);
-        }
+        images.Add(url, image);
+
+        Debug.Log("Successfully texture from " + url);
     }
 
-    public IEnumerator FetchArtist(string path, bool fetchNeighbours, bool fetchImages)
-    {
-        if (painters.ContainsKey(path))
-        {
-            Debug.Log("Painter is already fetched " + path);
-
-            if (fetchNeighbours)
-            {
-                foreach (Link link in painters[path].links)
-                {
-                    StartCoroutine(FetchArtist(link.type + "/" + link.id, false, false));
-                }
-            }
-
-            if (fetchImages)
-            {
-                foreach (Artwork artwork in painters[path].images)
-                {
-                    StartCoroutine(FetchImage(artwork.url));
-                }
-            }
-
-            yield break;
-        }
-        if (painterQueue.Contains(path))
-        {
-            Debug.Log("Painter is already being fetched " + path);
-            yield break;
-        }
-
-        painterQueue.Add(path);
-
+    private IEnumerator FetchNeighbourArtist(string path) {
         using UnityWebRequest webRequest = UnityWebRequest.Get("http://localhost:3000/entity/" + path);
 
         yield return webRequest.SendWebRequest();
@@ -121,98 +66,95 @@ public class DataManager : MonoBehaviour
         if (webRequest.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError(webRequest.error);
-        }
-        else
-        {
-            painters.Add(path, JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text));
-
-            painterQueue.Remove(path);
-
-            if (fetchNeighbours)
-            {
-                foreach (Link link in painters[path].links)
-                {
-                    StartCoroutine(FetchArtist(link.type + "/" + link.id, false, false));
-                }
-            }
-
-            if (fetchImages)
-            {
-                foreach (Artwork artwork in painters[path].images)
-                {
-                    StartCoroutine(FetchImage(artwork.url));
-                }
-            }
-        }
-    }
-
-    // Check if painterQueue is empty before calling this
-    public IEnumerator GetLinksOfArtist(string path, Action<List<DoorLink>> callback)
-    {
-        yield return new WaitUntil(() => painterQueue.Count == 0);
-
-        if (!painters.ContainsKey(path))
-        {
-            callback(new List<DoorLink>());
             yield break;
         }
 
-        var links = painters[path].links;
-        var result = new List<DoorLink>();
-        foreach (var link in links)
+        ArtistResponse artist = JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text);
+
+        painters.Add(path, artist);
+    }
+    private IEnumerator FetchMainArtist(string path)
+    {
+        using UnityWebRequest webRequest = UnityWebRequest.Get("http://localhost:3000/entity/" + path);
+
+        yield return webRequest.SendWebRequest();
+
+        if (webRequest.result != UnityWebRequest.Result.Success)
         {
-            int num = -1;
-            if (painters.ContainsKey(link.type + "/" + link.id))
-            {
-                num = painters[link.type + "/" + link.id].links.Count;
-            }
-            result.Add(new DoorLink(link.type + "/" + link.id, link.label, num));
+            Debug.LogError(webRequest.error);
+            yield break;
         }
 
-        callback(result);
-        yield break;
+        ArtistResponse mainArtist = JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text);
+
+        painters.Add(path, mainArtist);
+
+        List<Coroutine> ops = new List<Coroutine>();
+
+        foreach (Artwork artwork in mainArtist.images)
+        {
+            ops.Add(StartCoroutine(FetchImage(artwork.url)));
+        }
+
+        foreach (Link link in mainArtist.links)
+        {
+            ops.Add(StartCoroutine(FetchNeighbourArtist(link.type + "/" + link.id)));
+        }
+
+        foreach (Coroutine op in ops)
+        {
+            // Wait for all neighbours to be fetched
+            yield return op;
+        }
     }
 
     // Wouter you should call this method to start fetching stuff
-    public void SetCurrentPainter(string painterId)
+    public IEnumerator SetCurrentPainter(string painterId, Action<List<DoorLink>> callback)
     {
         Debug.Log("Setting current painter to: " + painterId);
 
+        loading = true;
+        lastCanvasUpdate = 0;
         currentPainter = painterId;
+        currentArtworkIndex = 0;
 
-        currentArtworkIndex = -1;
-        StartCoroutine(FetchArtist(painterId, true, true));
+        yield return StartCoroutine(FetchMainArtist(painterId));
+
+        loading = false;
+
+        var links = painters[painterId].links;
+        var result = new List<DoorLink>();
+        foreach (var link in links)
+        {
+            if (painters.ContainsKey(link.type + "/" + link.id))
+            {
+                int num = painters[link.type + "/" + link.id].links.Count;
+                result.Add(new DoorLink(link.type + "/" + link.id, link.label, num));
+            } else {
+                Debug.LogError("Missing neighbour " + link.type + "/" + link.id);
+            }
+        }
+
+        callback(result);
     }
 
     void Start()
     {
-        if (currentPainter == null && !String.IsNullOrWhiteSpace(debugPainterId))
-        {
-            SetCurrentPainter(debugPainterId);
-        }
-
         canvases = FindObjectsByType<CanvasDecalScript>(FindObjectsSortMode.None);
     }
 
     void Update()
     {
-        if (currentPainter == null || painterQueue.Contains(currentPainter))
-        {
+        if (currentPainter == null || loading) {
             return;
         }
 
-        foreach (CanvasDecalScript canvas in canvases)
+        if(lastCanvasUpdate + SecondsPerImage < Time.time)
         {
-            if (canvas.WantsNewImage())
+            foreach (CanvasDecalScript canvas in canvases)
             {
-                canvas.SetArtwork(GetNextArtwork());
-            }
-
-            if (!canvas.readyForNext && !fetchImageQueue.Contains(canvas.currentArtwork.url))
-            {
-                canvas.UpdateTexture(imageCache[canvas.currentArtwork.url]);
-                canvas.nextImageTime = DateTime.Now.AddSeconds(SecondsPerImage);
-                canvas.readyForNext = true;
+                Artwork nextArtwork = GetNextArtwork();
+                canvas.SetArtwork(images[nextArtwork.url], nextArtwork.label);
             }
         }
     }

@@ -118,20 +118,19 @@ public class RoomManager : MonoBehaviour
 
         if(LDM != null) {
             Debug.Log("Setting up LDM");
-            LDM.SetCurrentPainter(nextPainterId);
 
-            StartCoroutine(LDM.GetLinksOfArtist(nextPainterId, (links) => {
+            StartCoroutine(LDM.SetCurrentPainter(nextPainterId, (links) => {
                 Debug.Log("Got links of artist");
 
                 for(int i = 0; i < Math.Min(links.Count, exits.Count); i++) {
                     Debug.Log("Setting up door " + i);
+
                     int roomNum = Math.Clamp(links[i].numLinks, rooms.minDoors, rooms.maxDoors);
+
                     exits[i].SetPrompt(links[i].label);
                     exits[i].SetDestination(new Room("Room" + i, links[i].id));
                 }
-
             }));
-
         } else {
             Debug.Log("No LDM found");
         }
