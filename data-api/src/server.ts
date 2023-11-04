@@ -15,6 +15,8 @@ app.get('/status', (_req: Request, res: Response) => {
 })
 
 app.get('/entity/:entityType/:entityId', async (req: Request, res: Response) => {
+  console.log("Entity endpoint called");
+
   const { entityType, entityId } = req.params;
 
   if (!entityTypes.includes(entityType)) {
@@ -27,6 +29,8 @@ app.get('/entity/:entityType/:entityId', async (req: Request, res: Response) => 
 })
 
 app.get(`/image/:url`, async (req: Request, res: Response) => {
+  console.log("Image endpoint called");
+
   const { url } = req.params;
 
   const response = await axios.get(url, { responseType: 'arraybuffer' });
