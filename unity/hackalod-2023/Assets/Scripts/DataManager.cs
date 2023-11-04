@@ -8,7 +8,7 @@ using UnityEngine.Rendering.Universal;
 
 public class DataManager : MonoBehaviour
 {
-    public string painterId;
+    public string debugPainterId;
     public int SecondsPerImage = 3;
 
     private HashSet<string> painterQueue;
@@ -118,33 +118,27 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    // Wouter you should call this method to start fetching stuff
     public void SetCurrentPainter(string painterId)
     {
         currentPainter = painterId;
         currentArtworkIndex = -1;
-    }
-
-    public List<Artwork> GetArtworks(string painterId)
-    {
-        if (painters.ContainsKey(painterId))
-        {
-            return painters[painterId];
-        }
-
-        return new List<Artwork>();
+        StartCoroutine(FetchArtworks(painterId));
     }
 
     void Start()
     {
-        StartCoroutine(FetchArtworks(painterId));
-        SetCurrentPainter(painterId);
-
+        if (!String.IsNullOrWhiteSpace(debugPainterId))
+        {
+            SetCurrentPainter(debugPainterId);
+        }
+        
         canvases = FindObjectsByType<CanvasDecalScript>(FindObjectsSortMode.None);
     }
 
     void Update()
     {
-        if (painterQueue.Contains(painterId))
+        if (currentPainter == null || painterQueue.Contains(currentPainter))
         {
             return;
         }
