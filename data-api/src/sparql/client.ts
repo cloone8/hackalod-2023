@@ -5,3 +5,4 @@ export const artworksV2Url = 'https://api.data.netwerkdigitaalerfgoed.nl/dataset
 export const wikidataUrl = 'https://query.wikidata.org/sparql'
 
 export const artworksClient = new SparqlClient({ endpointUrl: artworksV2Url })
+export const wikidataClient = new SparqlClient({ endpointUrl: wikidataUrl })
