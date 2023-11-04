@@ -8,6 +8,6 @@ export const artworksClient = new SparqlClient({ endpointUrl: artworksV2Url });
 export const wikidataClient = new SparqlClient({
   endpointUrl: wikidataUrl,
   headers: {
-    "User-Agent": "User-Agent: CoolBot/0.0 (https://example.org/coolbot/; coolbot@example.org) generic-library/0.0"
+    "User-Agent": "HackaLOD/2.0 (https://netwerkdigitaalerfgoed.nl/hackalod/)"
   }
 });
