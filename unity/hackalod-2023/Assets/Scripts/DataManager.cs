@@ -76,6 +76,16 @@ public class DataManager : MonoBehaviour
 
         ArtistResponse artist = JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text);
 
+        if(artist.links.Count < 2) {
+            Debug.Log("Artist " + artist.metadata.name + " has less than 2 links, skipping");
+            yield break;
+        }
+
+        if(artist.images.Count == 0 && artist.links.Count < RoomManager.Instance().GetMaxDoors()) {
+            Debug.Log("Artist " + artist.metadata.name + " has no images, skipping");
+            yield break;
+        }
+
         neighbours.Add(new(link, artist));
     }
 
