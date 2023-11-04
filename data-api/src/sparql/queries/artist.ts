@@ -37,7 +37,7 @@ export const buildSubqueries = (artistId: string): string[] => {
     `
     SERVICE <${wikidataUrl}> {
       SELECT * WHERE {
-        BIND(wd:Q5598 as ?wid) .
+        BIND(wd:${artistId} as ?wid) .
         ?wid wdt:P135 ?movement .
         ?movement rdfs:label ?movementlabel .
         FILTER (lang(?movementlabel) = 'nl') .
