@@ -98,11 +98,11 @@ export const mapData = ([metadata, images, images2, movements]: any[][]) => {
         type: "city",
         id: getLastPathSegment(metafirst.pod.value),
       }] : []),
-      // ...movements.map(m => ({
-      //   label: `Beweging: ${m.movementlabel.value}`,
-      //   type: "movement",
-      //   id: getLastPathSegment(m.movement.value),
-      // }))
+      ...movements.filter((m) => m.movementlabel?.value && m.movement?.value).map(m => ({
+        label: `Beweging: ${m.movementlabel.value}`,
+        type: "movement",
+        id: getLastPathSegment(m.movement.value),
+      }))
     ]
   }
 }
