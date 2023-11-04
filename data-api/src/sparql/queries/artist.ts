@@ -6,9 +6,12 @@ import { paintingDataQuery } from "../query";
 export const buildSubqueries = (artistId: string): string[] => {
   return [
     `
+    ${paintingDataQuery}
+
     SERVICE <${wikidataUrl}> {
       SELECT * WHERE {
         BIND(wd:${artistId} as ?wid) .
+        ?wid wdt:P650 ?rkdid .
         ?wid rdfs:label ?name .
         OPTIONAL {
           ?wid wdt:P18 $image .
@@ -66,6 +69,10 @@ export const buildSubqueries = (artistId: string): string[] => {
 export const mapData = ([metadata, images, images2, movements]: any[][]) => {
   const [metafirst] = metadata;
 
+  if (!metafirst) {
+    return {}
+  }
+
   return {
     metadata: {
       name: metafirst.name?.value,
@@ -95,11 +102,11 @@ export const mapData = ([metadata, images, images2, movements]: any[][]) => {
         type: "city",
         id: getLastPathSegment(metafirst.pod.value),
       }] : []),
-      // ...movements.map(m => ({
-      //   label: `Beweging: ${m.movementlabel.value}`,
-      //   type: "movement",
-      //   id: getLastPathSegment(m.movement.value),
-      // }))
+      ...movements.filter((m) => m.movementlabel?.value && m.movement?.value).map(m => ({
+        label: `Beweging: ${m.movementlabel.value}`,
+        type: "movement",
+        id: getLastPathSegment(m.movement.value),
+      }))
     ]
   }
 }

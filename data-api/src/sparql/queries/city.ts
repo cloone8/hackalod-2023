@@ -43,7 +43,6 @@ export const buildSubqueries = (cityId: string): string[] => [
 ]
 
 export const mapData = ([metadata, images, links]: any[][]) => {
-  console.log(links)
   return {
     metadata: {
       name: metadata[0].name.value,

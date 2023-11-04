@@ -10,8 +10,6 @@ export default async (entityType: string, entityId: string) => {
   const qs = buildSubqueries(entityId)
     .map((q: any) => buildQuery(q));
 
-  console.log(qs[1]);
-
   const responses = await Promise.all(
     qs.map((q: string) => artworksClient.query.select(q).then(readableToObjectList))
   );
