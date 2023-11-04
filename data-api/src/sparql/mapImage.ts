@@ -4,10 +4,10 @@ export default (data: any[] | undefined) => {
   }
 
   return data
-      .filter((row) => row.paintingurl && row.paintingname)
-      .map((row) => ({
-        label: row.paintingname?.value,
-        desc: row.paintingdesc?.value,
-        url: row.paintingurl?.value,
-      }))
-}
+    .filter((row) => row.paintingurl && row.paintingname)
+    .map((row) => ({
+      label: row.paintingname?.value,
+      desc: row.paintingdesc?.value,
+      url: row.paintingurl?.value,
+    }));
+};

@@ -1,10 +1,13 @@
+import SparqlClient from "sparql-http-client";
+
 import { getLastPathSegment } from "../../util";
-import { wikidataUrl } from "../client";
+import { artworksClient, wikidataUrl } from "../client";
 import mapImage from "../mapImage";
 import { paintingDataQuery } from "../query";
 
-export const buildSubqueries = (movementId: string): string[] => [
-  `
+export const buildSubqueries = (movementId: string): { query: string; client: SparqlClient }[] => [
+  {
+    query: `
     SERVICE <${wikidataUrl}> {
       SELECT ?name ?description WHERE {
         BIND(wd:${movementId} as ?movement) .
@@ -14,7 +17,10 @@ export const buildSubqueries = (movementId: string): string[] => [
       }
     }
   `,
-  `
+    client: artworksClient,
+  },
+  {
+    query: `
     ${paintingDataQuery}
 
     SERVICE <${wikidataUrl}> {
@@ -26,7 +32,10 @@ export const buildSubqueries = (movementId: string): string[] => [
       }
     }
   `,
-  `
+    client: artworksClient,
+  },
+  {
+    query: `
     SERVICE <${wikidataUrl}> {
       SELECT ?artistwk ?artistname WHERE {
         BIND(wd:${movementId} as ?movement) .
@@ -37,24 +46,27 @@ export const buildSubqueries = (movementId: string): string[] => [
         FILTER(LANG(?artistname) = "nl") .
       }
     }
-  `
-]
+  `,
+    client: artworksClient,
+  },
+];
 
 export const mapData = ([metadata, images, links]: any[][]) => {
-  console.log(links)
+  console.log(links);
   return {
     metadata: {
       name: metadata[0].name.value,
     },
     images: mapImage(images),
-    links: links.filter((l) => l.artistwk?.value && l.artistname?.value).map((l) => ({
-      label: l.artistname.value,
-      type: 'artist',
-      id: getLastPathSegment(l.artistwk.value)
-    }))
-  }
-}
-
+    links: links
+      .filter((l) => l.artistwk?.value && l.artistname?.value)
+      .map((l) => ({
+        label: l.artistname.value,
+        type: "artist",
+        id: getLastPathSegment(l.artistwk.value),
+      })),
+  };
+};
 
 // MovementID is from rkd-artist, not wikidata
 // export const buildSubqueries = (movementId: string): string[] => [
@@ -88,7 +100,6 @@ export const mapData = ([metadata, images, links]: any[][]) => {
 //   `
 // ]
 
-
 // export const mapData = ([metadata, images, links]: any[][]) => {
 //   console.log(metadata)
 //   return {
@@ -103,4 +114,3 @@ export const mapData = ([metadata, images, links]: any[][]) => {
 //     }))
 //   }
 // }
-

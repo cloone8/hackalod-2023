@@ -1,10 +1,13 @@
+import SparqlClient from "sparql-http-client";
+
 import { getLastPathSegment } from "../../util";
-import { wikidataUrl } from "../client";
+import { artworksClient, wikidataUrl } from "../client";
 import mapImage from "../mapImage";
 import { paintingDataQuery } from "../query";
 
-export const buildSubqueries = (cityId: string): string[] => [
-  `
+export const buildSubqueries = (cityId: string): { query: string; client: SparqlClient }[] => [
+  {
+    query: `
     SERVICE <${wikidataUrl}> {
       SELECT ?name ?description WHERE {
         BIND(wd:${cityId} as ?city) .
@@ -16,7 +19,10 @@ export const buildSubqueries = (cityId: string): string[] => [
       }
     }
   `,
-  `
+    client: artworksClient,
+  },
+  {
+    query: `
     ${paintingDataQuery}
 
     SERVICE <${wikidataUrl}> {
@@ -28,7 +34,10 @@ export const buildSubqueries = (cityId: string): string[] => [
       }
     }
   `,
-  `
+    client: artworksClient,
+  },
+  {
+    query: `
     SERVICE <${wikidataUrl}> {
       SELECT ?artistwk ?artistname WHERE {
         BIND(wd:${cityId} as ?city) .
@@ -39,21 +48,22 @@ export const buildSubqueries = (cityId: string): string[] => [
         FILTER(LANG(?artistname) = "nl") .
       }
     }
-  `
-]
+  `,
+    client: artworksClient,
+  },
+];
 
 export const mapData = ([metadata, images, links]: any[][]) => {
   return {
     metadata: {
       name: metadata[0].name.value,
-      description: metadata[0].description.value
+      description: metadata[0].description.value,
     },
     images: mapImage(images),
     links: links.map((l) => ({
       label: l.artistname.value,
-      type: 'artist',
-      id: getLastPathSegment(l.artistwk.value)
-    }))
-  }
-}
-
+      type: "artist",
+      id: getLastPathSegment(l.artistwk.value),
+    })),
+  };
+};
