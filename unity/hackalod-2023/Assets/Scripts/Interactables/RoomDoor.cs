@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Door : Interactable
+public class RoomDoor : Interactable
 {
-    private string destination = "Narnia";
+    private string destination = "Unknown";
 
-    private string scene = "Room5";
+    private string scene = "";
+
+    void Start() {
+        scene = RoomManager.Instance().GetRandomRoom();
+    }
 
     public void SetDestination(string sceneName, string prompt) {
         destination = prompt;
@@ -16,5 +20,6 @@ public class Door : Interactable
 
     public override void Interact() {
         Debug.Log("Going to " + destination + "!");
+        RoomManager.Instance().EnterHallway(scene);
     }
 }

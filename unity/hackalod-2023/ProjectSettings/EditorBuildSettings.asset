@@ -6,7 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Entrance.unity
+    guid: cdee6172c93b44981ad9883398127e96
+  - enabled: 1
     path: Assets/Scenes/Room2.unity
     guid: 1aa34ba516e8e1084b6a3762af233ac0
+  - enabled: 1
+    path: Assets/Scenes/Room3.unity
+    guid: e3332bd1f87def2e09063130e3c2f74d
+  - enabled: 1
+    path: Assets/Scenes/Room4.unity
+    guid: a989b92173ce8d4c184c385396205a23
+  - enabled: 1
+    path: Assets/Scenes/Room5.unity
+    guid: a17e8304b1522270cbb4880bf027e190
+  - enabled: 1
+    path: Assets/Scenes/Hallway.unity
+    guid: 9abcdb89a9fc04ceabf311f72ff7e2ce
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
