@@ -3,18 +3,13 @@ import { artworksClient } from "./client";
 import { buildQuery } from "./query";
 
 export default async (entityType: string, entityId: string) => {
-  const { buildSubquery } = require(`./queries/${entityType}`);
+  const { buildSubquery, mapData } = require(`./queries/${entityType}`);
 
   const q = buildQuery(buildSubquery(entityId));
 
+  console.log(q);
+
   return artworksClient.query.select(q)
     .then(readableToObjectList)
-    .then(mapPaintingDataQuery);
+    .then(mapData);
 }
-
-const mapPaintingDataQuery = (data: any[]) => data.map((d: any) => ({
-  name: d.name.value,
-  description: d.description.value,
-  contentUrl: d.contentUrl.value
-}))
-
