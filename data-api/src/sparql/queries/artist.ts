@@ -3,61 +3,85 @@ import { wikidataUrl } from "../client";
 import mapImage from "../mapImage";
 import { paintingDataQuery } from "../query";
 
-export const buildSubquery = (artistId: string): string => `
-  ${paintingDataQuery}
+export const buildSubqueries = (artistId: string): string[] => {
+  return [
+    `
+    SERVICE <${wikidataUrl}> {
+      SELECT * WHERE {
+        BIND(wd:${artistId} as ?wid) .
+        ?wid rdfs:label ?name .
+        ?wid wdt:P18 $image .
+        ?wid wdt:P19 ?pob .
+        ?pob rdfs:label ?poblabel .
+        ?wid wdt:P569 ?dob .
+        ?wid wdt:P20 ?pod .
+        ?pod rdfs:label ?podlabel .
+        ?wid wdt:P570 ?dod .
+        ?wid wdt:P26 ?spouse .
+        ?spouse rdfs:label ?spouselabel .
+        FILTER (lang(?name) = 'nl') .
+        FILTER (lang(?poblabel) = 'nl') .
+        FILTER (lang(?podlabel) = 'nl') .
+        FILTER (lang(?spouselabel) = 'nl') .
+      }
+    }`,
+    `
+    ${paintingDataQuery}
 
-  SERVICE <${wikidataUrl}> {
-    SELECT * WHERE {
-      BIND(wd:${artistId} as ?wid) .
-      ?wid wdt:P650 ?rkdid .
-      ?wid rdfs:label ?name .
-      ?wid wdt:P18 $image .
-      ?wid wdt:P19 ?pob .
-      ?pob rdfs:label ?poblabel .
-      ?wid wdt:P569 ?dob .
-      ?wid wdt:P20 ?pod .
-      ?pod rdfs:label ?podlabel .
-      ?wid wdt:P570 ?dod .
-      ?wid wdt:P26 ?spouse .
-      ?spouse rdfs:label ?spouselabel .
-      FILTER (lang(?name) = 'nl') .
-      FILTER (lang(?poblabel) = 'nl') .
-      FILTER (lang(?podlabel) = 'nl') .
-      FILTER (lang(?spouselabel) = 'nl') .
-    }
-  }
-`;
+    SERVICE <${wikidataUrl}> {
+      SELECT * WHERE {
+        BIND(wd:${artistId} as ?wid) .
+        ?wid wdt:P650 ?rkdid .
+      }
+    }`,
+    `
+    SERVICE <${wikidataUrl}> {
+      SELECT * WHERE {
+        BIND(wd:${artistId} as ?wid) .
+        ?wid wdt:P135 ?movement .
+        ?movement rdfs:label ?movementlabel .
+        FILTER (lang(?movementlabel) = 'nl') .
+      }
+    }`,
+  ];
+}
 
-export const mapData = (data: any[]) => {
-  const [first] = data;
+export const mapData = ([metadata, images, movements]: any[][]) => {
+  const [metafirst] = metadata;
 
   return {
     metadata: {
-      name: first.name.value,
-      pob: first.poblabel.value,
-      dob: parseDate(first.dob.value),
-      pod: first.podlabel.value,
-      dod: parseDate(first.dod.value),
-      spouse: first.spouselabel.value,
+      name: metafirst.name.value,
+      pob: metafirst.poblabel.value,
+      dob: parseDate(metafirst.dob.value),
+      pod: metafirst.podlabel.value,
+      dod: parseDate(metafirst.dod.value),
+      spouse: metafirst.spouselabel.value,
+      movements: movements.map(m => m.movementlabel.value).join(', '),
     },
     images: [
       {
-        label: first.name.value,
-        url: first.image.value,
+        label: metafirst.name.value,
+        url: metafirst.image.value,
       },
-      ...mapImage(data)
+      ...mapImage(images)
     ],
     links: [
       {
-        label: `Geboortestad: ${first.poblabel.value}`,
+        label: `Geboortestad: ${metafirst.poblabel.value}`,
         type: "city",
-        id: getLastPathSegment(first.pob.value),
+        id: getLastPathSegment(metafirst.pob.value),
       },
       {
-        label: `Sterfplaats: ${first.podlabel.value}`,
+        label: `Sterfplaats: ${metafirst.podlabel.value}`,
         type: "city",
-        id: getLastPathSegment(first.pod.value),
-      }
+        id: getLastPathSegment(metafirst.pod.value),
+      },
+      // ...movements.map(m => ({
+      //   label: `Beweging: ${m.movementlabel.value}`,
+      //   type: "movement",
+      //   id: getLastPathSegment(m.movement.value),
+      // }))
     ]
   }
 }

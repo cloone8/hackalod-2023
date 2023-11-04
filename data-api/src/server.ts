@@ -1,16 +1,14 @@
 import express, { Request, Response } from 'express';
 import config from './config';
-import query from './sparql';
+import query, { entityTypes } from './sparql';
 
 import 'express-async-errors';
-
-const entityTypes = ['artist', 'city'];
 
 const app = express();
 
 app.use(express.json());
 
-app.get('/status', (req: Request, res: Response) => {
+app.get('/status', (_req: Request, res: Response) => {
   return res.status(200).json({ message: 'I\'m alive!'})
 })
 
