@@ -1,14 +1,10 @@
-/**
- * Setup express server.
- */
 import express, { Request, Response } from 'express';
 import config from './config';
+import query, { EntityType } from './sparql';
 
 import 'express-async-errors';
-import findDoors from './doors';
-import { getArtworksByPainter } from './artworks';
 
-// **** Variables **** //
+const entityTypes = ['artist', 'city'];
 
 const app = express();
 
@@ -18,25 +14,16 @@ app.get('/status', (req: Request, res: Response) => {
   return res.status(200).json({ message: 'I\'m alive!'})
 })
 
-app.get('/doors', async (req: Request, res: Response) => {
-  await findDoors("bla");
+app.get('/:entityType/:entityId', async (req: Request, res: Response) => {
+  const { entityType, entityId } = req.params;
 
-  return res.status(200).json({});
-})
-
-app.get('/artworks', async (req: Request, res: Response) => {
-  const { painterId } = req.query
-  if (!painterId || !(typeof painterId == 'string')) {
-    res.status(400).json({ error: { message: 'missing queryparam "painterId"'}})
-    return
+  if (!entityTypes.includes(entityType)) {
+    return res.status(400).json({ error: `Invalid entity type ${entityType}. Expected one of [${entityTypes.join(', ')}]`})
   }
-  const string = await getArtworksByPainter(painterId)
-  res.json(string)
-})
 
-// Nav to users pg by default
-app.get('/image', (req: Request, res: Response) => {
-  return res.status(501).json({ error: { message: 'not yet implemented' }})
-});
+  const result = await query(entityType as EntityType, entityId);
+
+  return res.status(200).json(result);
+})
 
 app.listen(config.port, () => console.log('server started'));
