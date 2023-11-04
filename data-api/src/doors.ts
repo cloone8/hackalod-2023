@@ -1,4 +1,4 @@
-import client from "./sparql/client";
+import { artworksClient } from "./sparql/client";
 
 export default async function findDoors(origin: string) {
   const query = `
@@ -15,7 +15,7 @@ export default async function findDoors(origin: string) {
     LIMIT 10
   `
 
-  const stream = await client.query.select(query);
+  const stream = await artworksClient.query.select(query);
 
   stream.on("data", (row) => {
     Object.entries(row).forEach(([key, value]: [string, any]) => {
