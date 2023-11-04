@@ -8,14 +8,12 @@ import { paintingDataQuery } from "../query";
 export const buildSubqueries = (cityId: string): { query: string; client: SparqlClient }[] => [
   {
     query: `
-    SELECT ?name ?description WHERE {
       BIND(wd:${cityId} as ?city) .
 
       ?city rdfs:label ?name .
       FILTER(LANG(?name) = "nl")
       ?city schema:description ?description .
       FILTER(LANG(?description) = "nl") .
-    }
   `,
     client: wikidataClient,
   },
@@ -36,14 +34,12 @@ export const buildSubqueries = (cityId: string): { query: string; client: Sparql
   },
   {
     query: `
-    SELECT ?artistwk ?artistname WHERE {
       BIND(wd:${cityId} as ?city) .
 
       ?artistwk wdt:P19 ?city .
       ?artistwk rdfs:label ?artistname .
       ?artistwk wdt:P650 ?artistid .
       FILTER(LANG(?artistname) = "nl") .
-    }
   `,
     client: wikidataClient,
   },

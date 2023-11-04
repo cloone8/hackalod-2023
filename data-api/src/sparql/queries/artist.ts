@@ -44,29 +44,34 @@ export const buildSubqueries = (artistId: string): { query: string; client: Spar
     },
     {
       query: `
-      SELECT * WHERE {
-        BIND(wd:${artistId} as ?wid) .
-        OPTIONAL {
-        	?wid wdt:P800 $painting .
-        	?painting rdfs:label ?paintingname .
-          ?painting wdt:P1476 ?paintingdesc .
-          $painting wdt:P18 $paintingurl .
-        	FILTER(lang($paintingdesc) = 'nl') .
-      		FILTER(lang($paintingname) = 'nl') .
-      	}
+      BIND(wd:${artistId} as ?wid) .
+      OPTIONAL {
+        ?wid wdt:P800 $painting .
+        ?painting rdfs:label ?paintingname .
+        ?painting wdt:P1476 ?paintingdesc .
+        $painting wdt:P18 $paintingurl .
+        FILTER(lang($paintingdesc) = 'nl') .
+        FILTER(lang($paintingname) = 'nl') .
       }
     `,
       client: wikidataClient,
     },
     {
       query: `
-      SELECT * WHERE {
         BIND(wd:${artistId} as ?wid) .
         ?wid wdt:P135 ?movement .
         ?movement rdfs:label ?movementlabel .
         FILTER (lang(?movementlabel) = 'nl') .
-      }
     `,
+      client: wikidataClient,
+    },
+    {
+      query: `
+        BIND(wd:${artistId} as ?wid) .
+        ?wid wdt:P463 ?gilde .
+        ?gilde rdfs:label ?gildelabel .
+        FILTER (lang(?gildelabel) = 'nl') .
+      `,
       client: wikidataClient,
     },
   ];
