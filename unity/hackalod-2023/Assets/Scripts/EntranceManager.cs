@@ -14,6 +14,6 @@ public class EntranceManager : MonoBehaviour
         Debug.Log(startingRoom.scene);
         Debug.Log(startingRoom.painter);
         Debug.Log(startingRoom.prompt);
-        RoomManager.Instance().InitFirstRoom(startingRoom);
+        /* RoomManager.Instance().InitFirstRoom(startingRoom); */
     }
 }

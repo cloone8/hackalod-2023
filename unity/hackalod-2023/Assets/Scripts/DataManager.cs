@@ -84,11 +84,11 @@ public class DataManager : MonoBehaviour
             yield break;
         }
 
-        if (artist.images.Count == 0 && artist.links.Count < RoomManager.Instance().GetMaxDoors())
-        {
-            Debug.Log("Artist " + artist.metadata.name + " has no images, skipping");
-            yield break;
-        }
+        /* if (artist.images.Count == 0 && artist.links.Count < RoomManager.Instance().GetMaxDoors()) */
+        /* { */
+        /*     Debug.Log("Artist " + artist.metadata.name + " has no images, skipping"); */
+        /*     yield break; */
+        /* } */
 
         neighbours.Add(new(link, artist));
     }
@@ -107,7 +107,8 @@ public class DataManager : MonoBehaviour
 
         mainArtist = JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text);
 
-        int linksNeeded = Math.Min(mainArtist.links.Count, RoomManager.Instance().GetMaxDoors());
+        /* int linksNeeded = Math.Min(mainArtist.links.Count, RoomManager.Instance().GetMaxDoors()); */
+        int linksNeeded = mainArtist.links.Count;
         Debug.Log("Fetching " + linksNeeded + " links");
         foreach (Link link in mainArtist.links)
         {

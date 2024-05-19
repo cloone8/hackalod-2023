@@ -10,6 +10,6 @@ public class HallwayDoor : Interactable
     public override void Interact()
     {
         Debug.Log("Going to " + prompt + "!");
-        RoomManager.Instance().EnterRoom();
+        /* RoomManager.Instance().EnterRoom(); */
     }
 }

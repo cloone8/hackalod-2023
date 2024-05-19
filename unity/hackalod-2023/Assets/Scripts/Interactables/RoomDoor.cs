@@ -12,10 +12,10 @@ public class RoomDoor : Interactable
 
     void Start()
     {
-        if (destination.scene == null)
-        {
-            destination.scene = RoomManager.Instance().GetRandomRoom();
-        }
+        /* if (destination.scene == null) */
+        /* { */
+        /*     destination.scene = RoomManager.Instance().GetRandomRoom(); */
+        /* } */
     }
 
     public void SetDestination(Room room)
@@ -30,6 +30,6 @@ public class RoomDoor : Interactable
     public override void Interact()
     {
         Debug.Log("Entering door to " + destination.scene + " with painter " + destination.painter);
-        RoomManager.Instance().EnterHallway(destination);
+        /* RoomManager.Instance().EnterHallway(destination); */
     }
 }
