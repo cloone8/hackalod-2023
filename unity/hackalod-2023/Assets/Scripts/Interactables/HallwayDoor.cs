@@ -7,7 +7,8 @@ public class HallwayDoor : Interactable
 {
     public string prompt = "Narnia";
 
-    public override void Interact() {
+    public override void Interact()
+    {
         Debug.Log("Going to " + prompt + "!");
         RoomManager.Instance().EnterRoom();
     }

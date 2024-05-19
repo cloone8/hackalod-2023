@@ -42,10 +42,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void UpdateCameraRotation() {
+    private void UpdateCameraRotation()
+    {
         Vector2 additionalRotation = lookVelocity;
 
-        if(!lookIsLinear) {
+        if (!lookIsLinear)
+        {
             additionalRotation *= Time.deltaTime;
         }
 
@@ -69,7 +71,8 @@ public class PlayerMovement : MonoBehaviour
 
         gravityVelocity += gravity * Time.deltaTime;
 
-        if(isJumping) {
+        if (isJumping)
+        {
             isJumping = false;
 
             gravityVelocity = (-gravity.normalized) * jumpSpeed;
@@ -80,36 +83,43 @@ public class PlayerMovement : MonoBehaviour
 
         CollisionFlags collisions = controller.Move(movementThisFrame);
 
-        if(collisions.HasFlag(CollisionFlags.Above) && Vector3.Dot(gravityVelocity, -gravity.normalized) > 0) {
+        if (collisions.HasFlag(CollisionFlags.Above) && Vector3.Dot(gravityVelocity, -gravity.normalized) > 0)
+        {
             gravityVelocity = Vector3.zero;
         }
 
         isGrounded = controller.isGrounded;
 
-        if(isGrounded) {
+        if (isGrounded)
+        {
             gravityVelocity = gravity.normalized * 2;
         }
     }
 
-    public float GetMovementSpeedFactor() {
-        if(!isGrounded) {
+    public float GetMovementSpeedFactor()
+    {
+        if (!isGrounded)
+        {
             return 0;
         }
 
         return inputSpeed.magnitude * (isSprinting ? sprintModifier : 1) / movementSpeed;
     }
 
-    internal void OnMovement(InputValue value) {
+    internal void OnMovement(InputValue value)
+    {
         Vector2 inputVelocity = value.Get<Vector2>();
 
         inputSpeed = inputVelocity * movementSpeed;
     }
 
-    internal void OnJump(InputValue value) {
+    internal void OnJump(InputValue value)
+    {
         isJumping = (value.Get<float>() > 0) && isGrounded;
     }
 
-    internal void OnLinearLookaround(InputValue value) {
+    internal void OnLinearLookaround(InputValue value)
+    {
         Vector2 inputVelocity = value.Get<Vector2>();
 
         lookVelocity = new Vector2(
@@ -120,7 +130,8 @@ public class PlayerMovement : MonoBehaviour
         lookIsLinear = true;
     }
 
-    internal void OnProgressiveLookaround(InputValue value) {
+    internal void OnProgressiveLookaround(InputValue value)
+    {
         Vector2 inputVelocity = value.Get<Vector2>();
 
         lookVelocity = new Vector2(
@@ -131,12 +142,15 @@ public class PlayerMovement : MonoBehaviour
         lookIsLinear = false;
     }
 
-    internal void OnSprint(InputValue value) {
+    internal void OnSprint(InputValue value)
+    {
         isSprinting = value.Get<float>() > 0;
     }
 
-    internal void OnMenu(InputValue value) {
-        if(value.Get<float>() > 0) {
+    internal void OnMenu(InputValue value)
+    {
+        if (value.Get<float>() > 0)
+        {
             Application.Quit();
         }
     }

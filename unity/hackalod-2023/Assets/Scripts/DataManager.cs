@@ -31,7 +31,8 @@ public class DataManager : MonoBehaviour
 
     public Artwork GetNextArtwork()
     {
-        if(mainArtist == null) {
+        if (mainArtist == null)
+        {
             return null;
         }
 
@@ -57,13 +58,14 @@ public class DataManager : MonoBehaviour
             yield break;
         }
 
-        Texture2D image = ((DownloadHandlerTexture) www.downloadHandler).texture;
+        Texture2D image = ((DownloadHandlerTexture)www.downloadHandler).texture;
         Debug.Log("Successfully texture from " + url);
 
         callback(image);
     }
 
-    private IEnumerator FetchNeighbourArtist(Link link) {
+    private IEnumerator FetchNeighbourArtist(Link link)
+    {
         using UnityWebRequest webRequest = UnityWebRequest.Get("http://localhost:3000/entity/" + link.type + "/" + link.id);
 
         yield return webRequest.SendWebRequest();
@@ -76,12 +78,14 @@ public class DataManager : MonoBehaviour
 
         ArtistResponse artist = JsonUtility.FromJson<ArtistResponse>(webRequest.downloadHandler.text);
 
-        if(artist.links.Count < 2) {
+        if (artist.links.Count < 2)
+        {
             Debug.Log("Artist " + artist.metadata.name + " has less than 2 links, skipping");
             yield break;
         }
 
-        if(artist.images.Count == 0 && artist.links.Count < RoomManager.Instance().GetMaxDoors()) {
+        if (artist.images.Count == 0 && artist.links.Count < RoomManager.Instance().GetMaxDoors())
+        {
             Debug.Log("Artist " + artist.metadata.name + " has no images, skipping");
             yield break;
         }
@@ -151,14 +155,19 @@ public class DataManager : MonoBehaviour
         canvases = FindObjectsByType<CanvasDecalScript>(FindObjectsSortMode.None);
     }
 
-    void UpdateCanvas(CanvasDecalScript canvas) {
+    void UpdateCanvas(CanvasDecalScript canvas)
+    {
         Artwork nextArtwork = GetNextArtwork();
 
-        StartCoroutine(FetchImage(nextArtwork.url, (image) => {
-            if(image == null) {
+        StartCoroutine(FetchImage(nextArtwork.url, (image) =>
+        {
+            if (image == null)
+            {
                 // Try again
                 UpdateCanvas(canvas);
-            } else {
+            }
+            else
+            {
                 canvas.SetArtwork(image, nextArtwork.label, mainArtist.metadata);
             }
         }));
@@ -166,11 +175,12 @@ public class DataManager : MonoBehaviour
 
     void Update()
     {
-        if (currentPainter == null || loading || mainArtist == null) {
+        if (currentPainter == null || loading || mainArtist == null)
+        {
             return;
         }
 
-        if(lastCanvasUpdate + SecondsPerImage < Time.time)
+        if (lastCanvasUpdate + SecondsPerImage < Time.time)
         {
             lastCanvasUpdate = Time.time;
 

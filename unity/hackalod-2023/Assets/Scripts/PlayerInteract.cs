@@ -11,21 +11,26 @@ public class PlayerInteract : MonoBehaviour
 
     private int interactableLayerMask;
 
-    void Start() {
+    void Start()
+    {
         originCamera = Camera.main;
         interactableLayerMask = LayerMask.GetMask("Interactable");
     }
 
-    internal void OnInteract(InputValue value) {
-        if(value.Get<float>() > 0) {
+    internal void OnInteract(InputValue value)
+    {
+        if (value.Get<float>() > 0)
+        {
             if (Physics.Raycast(
                 originCamera.transform.position,
                 originCamera.transform.forward,
                 out RaycastHit hit,
                 interactDistance,
                 interactableLayerMask)
-            ) {
-                if (hit.collider.gameObject.TryGetComponent<Interactable>(out var interactable)) {
+            )
+            {
+                if (hit.collider.gameObject.TryGetComponent<Interactable>(out var interactable))
+                {
                     Debug.Log("Interacting with " + hit.collider.gameObject.name);
                     interactable.Interact();
                 }

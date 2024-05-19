@@ -10,20 +10,25 @@ public class RoomDoor : Interactable
 
     public TextMeshProUGUI titleMesh;
 
-    void Start() {
-        if(destination.scene == null) {
+    void Start()
+    {
+        if (destination.scene == null)
+        {
             destination.scene = RoomManager.Instance().GetRandomRoom();
         }
     }
 
-    public void SetDestination(Room room) {
+    public void SetDestination(Room room)
+    {
         destination = room;
-        if(titleMesh != null) {
+        if (titleMesh != null)
+        {
             titleMesh.SetText(room.prompt);
         }
     }
 
-    public override void Interact() {
+    public override void Interact()
+    {
         Debug.Log("Entering door to " + destination.scene + " with painter " + destination.painter);
         RoomManager.Instance().EnterHallway(destination);
     }
