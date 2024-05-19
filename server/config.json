@@ -1,0 +1,69 @@
+{
+  "prefix": {
+    "hack": "http://example.org/"
+  },
+  "wings": "hack:Edition",
+  "rooms": [
+    {
+      "class": "hack:Edition",
+      "wing": ".",
+      "image": "?this hack:is-vastgelegd-op ?target",
+      "relation": [
+        {
+          "rdf": "?this <hack:vindt-plaats-in> ?target",
+          "has-image": true
+        },
+        {
+          "rdf": "?target <hack:neemt-deel-aan> ?this",
+          "has-image": true
+        }
+      ]
+    },
+    {
+      "class": "hack:Location",
+      "wing": "?target <hack:vindt-plaats-in> ?this",
+      "image": "?target <hack:van> ?this",
+      "relation": [
+        {
+          "rdf": "?target <hack:vindt-plaats-in> ?this"
+        }
+      ]
+    },
+    {
+      "class": "hack:Deelnemer",
+      "wing": "?this <hack:neemt-deel-aan> ?target",
+      "image": "?this <hack:is-zichtbaar-op ?target",
+      "relation": [
+        {
+          "rdf": "?this <hack:lid-van> ?target"
+        }
+      ]
+    },
+    {
+      "class": "hack:Team",
+      "wing": [
+        "?deelnemer <hack:lid-van> ?this",
+        "?deelnemer <hack:neemt-deel-aan> ?target"
+      ],
+      "relation": [
+        {
+          "rdf": "?target <hack:lid-van> ?this",
+          "has-image": true
+        }
+      ]
+    },
+    {
+      "class": "hack:JuryTeam",
+      "wing": [
+        "?jurylid <hack:lid-van> ?this",
+        "?jurylid <hack:neemt-deel-aan> ?target"
+      ],
+      "relation": [
+        {
+          "rdf": "?target <hack:lid-van> ?this",
+          "has-image": true
+        }
+      ]
+    }
+  ]
+}
