@@ -1,0 +1,5 @@
+services:
+  store:
+    image: stain/jena-fuseki
+    ports:
+      - "3030:3030"

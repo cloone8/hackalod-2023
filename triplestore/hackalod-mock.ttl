@@ -1,0 +1,15 @@
+@prefix hack: <http://github.com/cloone8/hackalod2023/> .
+@prefix hacke: <http://github.com/cloone8/hackalod2023/entity/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<hacke:Gouda2023>
+  a hack:Edition ;
+  dc:title "Hackalod 2023 te Gouda" ;
+  dcterms:url "https://media.istockphoto.com/id/1017830006/photo/gouda-town-hall-on-market-square-netherlands.jpg?s=612x612&w=0&k=20&c=JtmRQW23BrgUTB5sM39Zn_GlUJ_1nhWLhbmnL_haFhE=" ;
+
+
+
+  ex:editor [
+    ex:fullname "Dave Beckett";
+    ex:homePage <http://purl.org/net/dajobe/>
+  ] .
